@@ -58,19 +58,44 @@ Los sistemas de ecuaciones lineales, así como su representación matricial son 
 # 3. Descomposición LU
 
 # 3.1. Introducción del Método
+
 ## 3.1.1 Planteamiento del Problema
+
+El problema de resolver sistemas de ecuaciones lineales reside, en el núcleo del análisis numérico y la computación científica, y se expresa en forma matricial Ax = b. Este tipo de sistemas aparece en casi todos los ámbitos de la ingeniería y las ciencias aplicadas, desde el análisis de circuitos eléctricos, el diseño estructural, la modelización financiera, el aprendizaje automático, etc. Si bien es cierto que existen métodos iterativos (por ejemplo, el método de Gauss-Seidel que trabajará tu compañero) que encuentran una solución aproximada, los métodos directos se limitan a encontrar una solución exacta (dentro de la precisión de la máquina) en un número finito de pasos.
+El método de Descomposición LU es uno de los métodos directos más fundamentales y eficientes. No es simplemente un algoritmo, sino una factorización de la matriz A que transforma el problema Ax = b en un proceso de dos pasos mucho más simple de resolver. Esta investigación se centrará en la fundamentación teórica, la formulación matemática, el análisis de estabilidad y las ventajas de este crucial método.
+
 ## 3.1.2 Contexto Histórico
+
+La factorización LU es la formalización moderna de la eliminación gaussiana, un algoritmo con raíces que se remontan a más de dos milenios (como en los "Nueve Capítulos sobre el Arte Matemático" chinos). Sin embargo, su concepción actual como una factorización matricial explícita fue fundamental para el nacimiento de la computación digital. Alan Turing, en su trabajo seminal de 1948 "Rounding-Off Errors in Matrix Processes", utilizó esta factorización como herramienta central para analizar los errores de redondeo en procesos matriciales automatizados. Desde entonces, ha evolucionado para convertirse en el estándar de facto en bibliotecas de software de alto rendimiento como LAPACK.
+
+
 ## 3.1.3 Metodología de Solución
+
+La estrategia general consiste en descomponer la matriz $A$ en el producto de dos matrices triangulares: L (Lower, triangular inferior) y U (Upper, triangular superior), tal que A=LU.
+Esta factorización permite desacoplar el sistema $Ax=b$ en dos etapas sucesivas: primero se resuelve un sistema para un vector intermedio utilizando L (sustitución hacia adelante) y posteriormente se obtiene la solución final utilizando $U$ (sustitución hacia atrás). Para garantizar la viabilidad en computadoras, se incorpora una matriz de permutación P (pivoteo), resultando en la forma PA=LU.
 
 <br>
 <br>
 
 # 3.2 Revisión de la Literatura
 
+La literatura canónica en álgebra lineal numérica posiciona a la descomposición LU como la herramienta fundamental para sistemas densos. Autores como Golub y Van Loan (2013) y Trefethen y Bau (1997) describen este método como la "navaja suiza" del cálculo matricial.La investigación teórica destaca dos aspectos críticos:Eficiencia: Una vez calculada la factorización (con costo cúbico $O(n^3)$), resolver para múltiples vectores $b$ es cuadrático $O(n^2)$, lo cual es una ventaja decisiva sobre la inversión de matrices explícita.Estabilidad: Los textos clásicos (Burden et al., 2017) enfatizan que la factorización pura es inestable sin intercambio de filas. La literatura moderna se centra en variantes con pivoteo parcial para acotar el crecimiento de los errores de redondeo, asegurando que los multiplicadores en la eliminación no excedan la unidad en magnitud.
+
+La factorización LU constituye la formalización directa del método de eliminación gaussiana, que es un algoritmo muy antiguo con una historia de más de dos mil años. No obstante, su concepción moderna como una factorización de matrices resultó crucial para el desarrollo de las computadoras digitales. Alan Turing llegó a utilizar esta factorización como una de las herramientas centrales en su trabajo de 1948 "Rounding-Off Errors in Matrix Processes", tratando de encontrar el análisis de errores en las computaciones basados en matrices (Turing, 1948).
+
+Los textos considerados canónicos de álgebra lineal numérica, los de Golub & Van Loan (2013) o los de Trefethen & Bau (1997), consideran la descomposición LU como la "navaja suiza" para la resolución de sistemas lineales densos. Es precisamente la base sobre la cual se construyen algoritmos más complejos y es el método de facto que se encuentra implementado en paquetes de software de alto rendimiento como LAPACK y bibliotecas como NumPy (SciPy) o MATLAB (Trefethen & Bau, 1997). La literatura no sólo se esfuerza por describir el algoritmo básico, sino que lo hace por describir, y exclusivamente por el mismo, las versiones estables que tienen pivoteo, indispensable para la aplicación práctica de estas ideas.
+
+
+
+
 # 3.3 Metodología
+
 Este método numérico requiere primero, para su justificación, las siguientes herramientas y conceptos matemáticos. 
 
 ## 3.3.1 Definiciones Matemáticas
+
+El método se implementa mediante la factorización con pivoteo parcial para garantizar la estabilidad numérica:$$PA = LU$$Donde $P$ es una matriz de permutación, L es triangular inferior con unos en la diagonal, y U es triangular superior.Al sustituir en Ax=b, obtenemos LUx = Pb. Definimos b' = Pb$ y un vector auxiliar z = Ux. El problema se resuelve en dos pasos:Paso 1: Sustitución hacia adelante ($Lz = b'$).Se despeja$z comenzando desde la primera fila:z_i = b'_i - \sum_{j=1}^{i-1} L_{ij}z_j, \quad \text{para } i=2, \dots, n \quad (\text{con } z_1 = b'_1)Paso 2: Sustitución hacia atrás (Ux = z).Se despeja x comenzando desde la última fila:$$   x_i = \frac{1}{U_{ii}} \left( z_i - \sum_{j=i+1}^{n} U_{ij}x_j \right), \quad \text{para } i=n-1, \dots, 1 \quad (\text{con } x_n = \frac{z_n}{U_{nn}})$$
+
 ### Matriz Cuadrada 
 Sea $A\in M_{n\times m}(F)$, con $M_{n\times m}$ el conjunto de matrices del campo $F$ con dimensiones $n\times m$. En el caso en que $n = m$ decimos que $A$ es una matriz cuadrada. Para el futuro de este reporte, se tomará $F = \mathbb{R}$. 
 
@@ -187,6 +212,8 @@ print("Buenas buenas")
 # 3.6. Discusión y Conclusiones
 <br>
 <br>
+
+La descomposición LU, reforzada con pivoteo parcial, constituye el pilar de los métodos directos. Su elegancia teórica transforma un problema denso en dos sistemas triangulares triviales. Su verdadera fortaleza radica en la eficiencia para resolver sistemas con múltiples cargas ($b$) constantes y en su estabilidad controlada, lo que la convierte en la herramienta predilecta para simulaciones ingenieriles donde la precisión exacta es prioritaria sobre la velocidad de iteración aproximada.
 
 ---
 
@@ -318,3 +345,7 @@ print("Buenas buenas")
 - [Wikipedia - Diagonally Dominant Matrix](https://en.wikipedia.org/wiki/Diagonally_dominant_matrix)
 - [Wikipedia - Gauss-Seidel Method](https://en.wikipedia.org/wiki/Gauss%E2%80%93Seidel_method)
 - [J. Demmel - Applied Numerical Linear Algebra](https://www.stat.uchicago.edu/~lekheng/courses/302/demmel/): Ver **Capítulo 6** (Pag 282-286, 290)
+- Burden, R. L., Faires, J. D., & Burden, A. M. (2017). Análisis numérico (10ª ed.). Cengage Learning.
+- Golub, G. H., & Van Loan, C. F. (2013). Matrix computations (4ª ed.). Johns Hopkins University Press.
+- Trefethen, L. N., & Bau, D. (1997). Numerical linear algebra. SIAM.
+- Turing, A. M. (1948). Rounding-Off Errors in Matrix Processes. The Quarterly Journal of Mechanics and Applied Mathematics, 1(1), 287–308.
