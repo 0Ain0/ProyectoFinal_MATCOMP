@@ -5,8 +5,6 @@
 <br>
 <br>
 <br>
-<br>
-<br>
 <div align="center">
 
 ![Logo Universidad Panamericana](assets/logoUP.png)
