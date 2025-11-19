@@ -150,19 +150,14 @@ L_2^{-1}L_1 = U_2 U_1^{-1} = I\ \ \ \ \Longrightarrow\ \ \ \ L_1 = L_2\  \land\ 
 $$
 Así pues, el despeje $LU$ fue único para $A$. Como observación final, es facil ver que  $L$ es facil de obtener, al no ser necesario ningún despeje u operación entre matrices. Mientras que $U$ se puede obtener al tiempo que se genera $L$. Con esto queda demostrada la existencia y unicidad de $L, U$, además de dar una pauta para la obtención de dichas matrices.
 
-<br>
-<br>
-
 ## 3.3.3. Algoritmo de la Descomposición LU
 ## 3.3.3.1. Pseudocódigo
 ```
 
 ``` 
 
-## 3.3.3.2. Script en Python
-```python
-print("Buenas buenas")
-```
+<br>
+<br>
 
 # 3.4. Aplicación de la Descomposición LU
 ## 3.4.1 Problema 1:
@@ -279,11 +274,8 @@ $$
 ```
 
 ``` 
-
-## 4.3.3.2. Script en Python
-```python
-print("Buenas buenas")
-```
+<br>
+<br>
 
 # 4.4. Aplicación de la Descomposición LU
 ## 4.4.1. Problema 1:
