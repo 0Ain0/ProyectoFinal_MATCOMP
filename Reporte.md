@@ -169,23 +169,17 @@ Así pues, el despeje $LU$ fue único para $A$. Como observación final, es faci
 <br>
 
 # 4.4. Método Práctico: 
-[Aplicación práctica del método]
-
-<br>
-<br>
-
-# 4.5. Algoritmo: 
-## 4.5.1. Pseudocódigo
+## 4.4.1. Pseudocódigo
 ```
 
 ``` 
 
-## 4.5.2. Script en Python
+## 4.4.2. Script en Python
 ```python
 print("Buenas buenas")
 ```
 
-## 4.5.3. Resultados
+## 4.4.3. Resultados
 
 <br>
 <br>
@@ -196,41 +190,96 @@ print("Buenas buenas")
 
 # 5. Método Gauss-Seidel Acelerado (SOR)
 # 5.1. Planteamiento del Problema: 
-[Descripción del problema para Descomposición LU]
+[Qué buscan Gauss-Seidel y SOR]
 
 <br>
 <br>
 
 # 5.2. Marco Teórico: 
-[Fundamentos teóricos de la Descomposición LU]
+[Qué es el método de Gauss-Seidel y como se reduce a SOR - COMPLETAR]
+
+Una vez tenemos el concepto del funcionamiento de Gauss-Seidel, tenemos pues un método iterativo que busca una solución *aproximada* que reduce el costo potencial de soluciones exactas. Ahora, **SOR** agregará una variable $\omega$ para controlar y eficienciar el paso de aproximamiento de las iteraciones, a esto se le conoce como un **parámetro de relajación**. 
+
+## 5.2.1. Conceptos Matemáticos Previos
+### Diagonalmente Dominante por Filas
+Sea $A\in M_{n\times n}(F)$ matríz cuadrada, se dice que es diagonalmente dominante si se cumple que: 
+$$
+|a_{ii}| \geq \sum_{j\neq i}|a_{ij}| \ \ \ (\forall i)
+$$
+En el caso en que se use ($>$), a esto se le llaman **estrictamente diagonalmente dominante**. Así, se puede generar la dominancia por columnas recorriendo la columna asociada al punto en la diagonal, y en caso de cumplir ambas se toma como el caso general de dominancia diagonal. 
+
+### Teorema de Convergencia Gauss-Seidel
+Sea el sistema dado por $Ax = b$, con $A\in M_{n\times m}(F)$ y $x, b$ vectores de tamaño $n\times 1$. Si $A$ es estríctamente diagonalmente dominante, entonces el método de **Gauss-Seidel** converge para cualquier aproximación inicial $x^{(0)}$. 
 
 <br>
 <br>
 
 # 5.3. Desarrollo Teórico: 
-[Desarrollo matemático y teórico]
+Entonces dado un sistema $Ax = b$, con $A\in M_{n\times n}(F)$ matriz y $x, b$ vectores de tamaño $n\times 1$. Generamos así la descomposición estándar de la matriz $A$: 
+$$
+A = D - L - U
+$$
+Donde $D, L, U \in M_{n\times n}(F)$, que cumplen: 
+- $D =$ matriz diagonal con los elementos $a_{ii}$. 
+- $L =$ matriz triangular inferior estricta. 
+- $U =$ matriz triangular superior estricta. 
+
+Sabemos pues que por método Gauss-Seidel, la entrada $i$ de $x_{GS}^{(k+1)}$ tendrá la forma: 
+$$
+x_{GS, i}^{(k+1)} = \frac{1}{aii}\Big(b_i - \sum_{j=1}^{i-1}a_{ij}x_j ^{(k+1)}-\sum_{j=i+1}^{n}a_{ij}x_j ^{(k)}\Big)
+$$
+Donde entonces, el cambio se ve como $\Delta x_i = x_{GS,i}^{(k+1)}-x_i^{(k)}$. Ahora, la metodoloía de usar un **parámetro de relajación** $\omega$, requiere que hagamos un cambio ponderado: 
+$$
+x_i^{(k+1)} = x_i^{(k)} + \omega\Delta x_i = x_i^{(k)} + \omega \big( x_{GS,i}^{(k+1)} -  x_i^{(k)}\big)
+$$
+Luego sustituímos el valor de $x_{GS,i}^{(k+1)}$ con la formula del método Gauss-Seidel: 
+$$\begin{align}
+x_i^{(k+1)} &= x_i^{(k)} + \omega \left( \frac{1}{a_{ii}} \left( b_i - \sum_{j=1}^{i-1} a_{ij}x_j^{(k+1)} - \sum_{j=i+1}^{n} a_{ij}x_j^{(k)} \right) - x_i^{(k)} \right) \\
+&=  (1 - \omega)x_i^{(k)} + \frac{\omega}{a_{ii}} \left( b_i - \sum_{j=1}^{i-1} a_{ij}x_j^{(k+1)} - \sum_{j=i+1}^{n} a_{ij}x_j^{(k)} \right)
+\end{align}
+$$
+Multiplicamos todo por $a_{ii}$ para quitar los denominadores: 
+$$
+a_{ii}x_i^{(k+1)} = (1 - \omega)a_{ii}x_i^{(k)} + \omega \left( b_i - \sum_{j=1}^{i-1} a_{ij}x_j^{(k+1)} - \sum_{j=i+1}^{n} a_{ij}x_j^{(k)} \right)
+$$
+Y podemos reorganizar tal que: 
+$$
+a_{ii}x_i^{(k+1)} + \omega \sum_{j=1}^{i-1} a_{ij}x_j^{(k+1)} = (1 - \omega)a_{ii}x_i^{(k)} - \omega \sum_{j=i+1}^{n} a_{ij}x_j^{(k)} + \omega b_i
+$$
+Con lo que podemos obtener de forma matricial: 
+$$
+(D - \omega L)x^{(k+1)} = [(1 - \omega)D + \omega U]x^{(k)} + \omega b
+$$
+Y despejando finalmente: 
+$$
+x^{(k+1)} = (D - \omega L)^{-1}[(1 - \omega)D + \omega U] x^{(k)} + \omega(D - \omega L)^{-1}\mathbf{b}
+$$
+En la literatura, generalmente definen:
+$$
+T_{SOR} = (D - \omega L)^{-1}[(1 - \omega)D + \omega U],\ \ \ \mathbf{c}_{SOR} = \omega(D - \omega L)^{-1}\mathbf{b}
+$$
+Con lo que el despeje final queda de la manera: 
+$$
+x^{(k+1)} = T_{SOR}\mathbf{x}^{(k)} + c_{SOR}
+$$
+
+> Es importante notar que por teorema, para asegurar la **convergencia** del método **SOR**, $0 < \omega < 2$, esto se puede ver en el Teorema 6.4 de *Applied Numerical Linear Algebra* de J. Demmel. 
 
 <br>
 <br>
 
 # 5.4. Método Práctico: 
-[Aplicación práctica del método]
-
-<br>
-<br>
-
-# 5.5. Algoritmo: 
-## 5.5.1. Pseudocódigo
+## 5.4.1. Pseudocódigo
 ```
 
 ``` 
 
-## 5.5.2. Script en Python
+## 5.4.2. Script en Python
 ```python
 print("Buenas buenas")
 ```
 
-## 5.5.3. Resultados
+## 5.4.3. Resultados
 
 # 6. Concluciones 
 
@@ -239,3 +288,6 @@ print("Buenas buenas")
 - [CS 357 Textbook - LU Decomposition for Solving Linear Equations](https://cs357.cs.illinois.edu/textbook/notes/linsys.html)
 - [MIT OpenCourseWare - LU Decomposition](https://youtu.be/-eA2D_rIcNA?si=8e2Xed8Uyxm4qx1m)
 - [Lloyd N., David Bau - Numerical Linear Algebra](https://davidtabora.wordpress.com/wp-content/uploads/2015/01/lloyd_n-_trefethen_david_bau_iii_numerical_line.pdf): Ver **Lecture 20** (Pag. 147 - 151). 
+- [Wikipedia - Diagonally Dominant Matrix](https://en.wikipedia.org/wiki/Diagonally_dominant_matrix)
+- [Wikipedia - Gauss-Seidel Method](https://en.wikipedia.org/wiki/Gauss%E2%80%93Seidel_method)
+- [J. Demmel - Applied Numerical Linear Algebra](https://www.stat.uchicago.edu/~lekheng/courses/302/demmel/): Ver **Capítulo 6** (Pag 282-286, 290)
