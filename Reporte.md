@@ -29,10 +29,11 @@
 <br>
 </div>
 
-### **Profesor:** [Nombre del Profesor]
+### **Profesor:** David Iván Morales Huerta
 
 ### **Equipo:**
-- Cecilia Casta
+- Cecilia 
+- Casta
 - Santiago Medina Domínguez  
 - Santiago Espinosa Ollivier
 - Ain Bolaños Cortés
@@ -50,38 +51,28 @@ Este reporte desarrolla, explica, justifica e implementa los métodos de descomp
 <br>
 
 
-# 2. Objetivos
-
-## 2.1. Objetivo General
-[Descripción del objetivo general]
-
-## 2.2. Objetivos Específicos
-- [Objetivo específico 1]
-- [Objetivo específico 2]
-- [Objetivo específico 3]
-
-<br>
-<br>
-
-# 3. Introducción
+# 2. Introducción
 Los sistemas de ecuaciones lineales, así como su representación matricial son un problema típico de la computación, en áreas relevantes como la Visión de Computadora, la criptografía, los gráficos y el machine learning, así como en las simulaciones físicas y el análisis matemático. Y de la misma manera en que los conceptos del álgebra lineal son relevantes para la expansión de los límites de la computación, el poder computacional extiende las posibilidades de procesamiento y resolución de sistemas lineales extensos.   
 
 <br>
 <br>
 
-# 4. Descomposición LU
+# 3. Descomposición LU
 
-# 4.1. Planteamiento del Problema: 
-[Descripción del problema para Descomposición LU]
+# 3.1. Introducción del Método
+## 3.1.1 Planteamiento del Problema
+## 3.1.2 Contexto Histórico
+## 3.1.3 Metodología de Solución
 
 <br>
 <br>
 
-# 4.2. Marco Teórico: 
-[Fundamentos teóricos de la Descomposición LU]
+# 3.2 Revisión de la Literatura
 
-## 4.2.1 Definiciones Matemáticas
+# 3.3 Metodología
+Este método numérico requiere primero, para su justificación, las siguientes herramientas y conceptos matemáticos. 
 
+## 3.3.1 Definiciones Matemáticas
 ### Matriz Cuadrada 
 Sea $A\in M_{n\times m}(F)$, con $M_{n\times m}$ el conjunto de matrices del campo $F$ con dimensiones $n\times m$. En el caso en que $n = m$ decimos que $A$ es una matriz cuadrada. Para el futuro de este reporte, se tomará $F = \mathbb{R}$. 
 
@@ -100,11 +91,7 @@ Esto es útil tambien para referirnos a partes de una matriz $A$ lo suficienteme
 
 Además, en dado caso de tener un vector $v$ con dimensiones $n\times 1$, la multiplicación $v e_k^T$ será una matriz cuadrada $n\times n$ con todos los valores $0$ a excepción de la columna $k$ que contendrá los valores de $v$. 
 
-
-<br>
-<br>
-
-# 4.3. Desarrollo Teórico: 
+## 3.3.2. Justificación Teórica de la Descomposición LU
 Sea $A\in M_{n\times n}(\mathbb{R})$, lo que buscamos es la secuencia finita $\{ L_k\in M_{n\times n}: 1\leq k \leq n\}$ tales que para $x_k$ la $k$-ésima columna de la matríz $A$ ($x_k = Ae_k$): 
 $$
 x_k = \begin{bmatrix}
@@ -163,24 +150,43 @@ Por cerradura de las matrices triangulares, $L_2^{-1}L_1$ es triangular inferior
 $$
 L_2^{-1}L_1 = U_2 U_1^{-1} = I\ \ \ \ \Longrightarrow\ \ \ \ L_1 = L_2\  \land\ U_1 = U_2
 $$
-Así pues, el despeje $LU$ fue único para $A$. Como observación final, es facil ver que  $L$ es facil de obtener, al no ser necesario ningún despeje u operación entre matrices. Mientras que $U$ se puede obtener al tiempo que se genera $L$. 
+Así pues, el despeje $LU$ fue único para $A$. Como observación final, es facil ver que  $L$ es facil de obtener, al no ser necesario ningún despeje u operación entre matrices. Mientras que $U$ se puede obtener al tiempo que se genera $L$. Con esto queda demostrada la existencia y unicidad de $L, U$, además de dar una pauta para la obtención de dichas matrices.
 
 <br>
 <br>
 
-# 4.4. Método Práctico: 
-## 4.4.1. Pseudocódigo
+## 3.3.3. Algoritmo de la Descomposición LU
+## 3.3.3.1. Pseudocódigo
 ```
 
 ``` 
 
-## 4.4.2. Script en Python
+## 3.3.3.2. Script en Python
 ```python
 print("Buenas buenas")
 ```
 
-## 4.4.3. Resultados
+# 3.4. Aplicación de la Descomposición LU
+## 3.4.1 Problema 1:
+## 3.4.1.1 Desarrollo Explícito
+## 3.4.1.2 Resultado del Código
 
+<br>
+<br>
+
+## 3.4.1 Problema 2:
+## 3.4.1.1 Desarrollo Explícito
+## 3.4.1.2 Resultado del Código
+
+<br>
+<br>
+
+# 3.5. Resultados
+
+<br>
+<br>
+
+# 3.6. Discusión y Conclusiones
 <br>
 <br>
 
@@ -188,33 +194,35 @@ print("Buenas buenas")
 
 <br>
 
-# 5. Método Gauss-Seidel Acelerado (SOR)
-# 5.1. Planteamiento del Problema: 
-[Qué buscan Gauss-Seidel y SOR]
+# 4. Método Gauss-Seidel Acelerado (SOR)
 
-<br>
-<br>
-
-# 5.2. Marco Teórico: 
-[Qué es el método de Gauss-Seidel y como se reduce a SOR - COMPLETAR]
-
+# 4.1. Introducción del Método
 Una vez tenemos el concepto del funcionamiento de Gauss-Seidel, tenemos pues un método iterativo que busca una solución *aproximada* que reduce el costo potencial de soluciones exactas. Ahora, **SOR** agregará una variable $\omega$ para controlar y eficienciar el paso de aproximamiento de las iteraciones, a esto se le conoce como un **parámetro de relajación**. 
 
-## 5.2.1. Conceptos Matemáticos Previos
-### Diagonalmente Dominante por Filas
-Sea $A\in M_{n\times n}(F)$ matríz cuadrada, se dice que es diagonalmente dominante si se cumple que: 
+## 4.1.1 Planteamiento del Problema
+## 4.1.2 Contexto Histórico
+## 4.1.3 Metodología de Solución
+
+<br>
+<br>
+
+# 4.2 Revisión de la Literatura
+
+# 4.3 Metodología
+Este método numérico requiere primero, para su justificación, las siguientes herramientas y conceptos matemáticos.
+
+## 4.3.1 Definiciones Matemáticas 
+### Matriz Diagonalmente Dominante
+Sea $A\in M_{n\times n}(F)$ matríz cuadrada, se dice que es **diagonalmente dominante por filas** si se cumple que: 
 $$
 |a_{ii}| \geq \sum_{j\neq i}|a_{ij}| \ \ \ (\forall i)
 $$
-En el caso en que se use ($>$), a esto se le llaman **estrictamente diagonalmente dominante**. Así, se puede generar la dominancia por columnas recorriendo la columna asociada al punto en la diagonal, y en caso de cumplir ambas se toma como el caso general de dominancia diagonal. 
+En el caso en que se use ($>$), a esto se le llaman **estrictamente diagonalmente dominante por filas**. Así, se puede generar la **dominancia por columnas** recorriendo la columna asociada al punto en la diagonal, y en caso de cumplir ambas se toma como el caso general de **dominancia diagonal**. 
 
 ### Teorema de Convergencia Gauss-Seidel
 Sea el sistema dado por $Ax = b$, con $A\in M_{n\times m}(F)$ y $x, b$ vectores de tamaño $n\times 1$. Si $A$ es estríctamente diagonalmente dominante, entonces el método de **Gauss-Seidel** converge para cualquier aproximación inicial $x^{(0)}$. 
 
-<br>
-<br>
-
-# 5.3. Desarrollo Teórico: 
+# 4.3.2. Justificación Teórica del Método SOR 
 Entonces dado un sistema $Ax = b$, con $A\in M_{n\times n}(F)$ matriz y $x, b$ vectores de tamaño $n\times 1$. Generamos así la descomposición estándar de la matriz $A$: 
 $$
 A = D - L - U
@@ -268,22 +276,43 @@ $$
 <br>
 <br>
 
-# 5.4. Método Práctico: 
-## 5.4.1. Pseudocódigo
+## 4.3.3. Algoritmo de la Descomposición LU
+## 4.3.3.1. Pseudocódigo
 ```
 
 ``` 
 
-## 5.4.2. Script en Python
+## 4.3.3.2. Script en Python
 ```python
 print("Buenas buenas")
 ```
 
-## 5.4.3. Resultados
+# 4.4. Aplicación de la Descomposición LU
+## 4.4.1. Problema 1:
+## 4.4.1.1. Desarrollo Explícito
+## 4.4.1.2. Resultado del Código
 
-# 6. Concluciones 
+<br>
+<br>
 
-# 7. Referencias
+## 4.4.1. Problema 2:
+## 4.4.1.1. Desarrollo Explícito
+## 4.4.1.2. Resultado del Código
+
+<br>
+<br>
+
+# 4.5. Resultados
+
+<br>
+<br>
+
+# 4.6. Discusión y Conclusiones
+
+<br>
+<br>
+
+# 5. Referencias
 - [Geeks4Geeks - Linear Algebra in Computer Science](https://www.geeksforgeeks.org/maths/linear-algebra-in-computer-science/)
 - [CS 357 Textbook - LU Decomposition for Solving Linear Equations](https://cs357.cs.illinois.edu/textbook/notes/linsys.html)
 - [MIT OpenCourseWare - LU Decomposition](https://youtu.be/-eA2D_rIcNA?si=8e2Xed8Uyxm4qx1m)
