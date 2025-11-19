@@ -264,9 +264,85 @@ Así pues, el despeje $LU$ fue único para $A$. Como observación final, es faci
 
 ## 3.3.3. Algoritmo de la Descomposición LU
 
+El algoritmo computacional para la descomposición LU con pivoteo parcial se estructura en tres fases principales: Factorización, Sustitución hacia adelante y Sustitución hacia atrás.Inicialización: Se parte de la matriz $A$ de dimensión $n \times n$ y el vector $b$. Se inicializan la matriz de permutación $P$ como una identidad y la matriz $L$ como una matriz identidad (unos en la diagonal, ceros en el resto). La matriz $U$ puede inicializarse como una copia de $A$, la cual se irá modificando (eliminación Gaussiana).Iteración de Columnas (Pivoteo y Eliminación): Se recorre la matriz por columnas $k$ desde la primera hasta la penúltima ($k=0$ hasta $n-1$):Pivoteo: Se busca en la columna $k$ (desde la fila $k$ hacia abajo) el valor con el mayor valor absoluto. Se intercambian las filas correspondientes tanto en la matriz de trabajo ($U$), como en la parte calculada de $L$ (sin tocar la diagonal) y en la matriz de permutación $P$.Cálculo de Multiplicadores: Para cada fila $i$ debajo del pivote, se calcula el factor $\lambda = U_{ik} / U_{kk}$. Este valor se almacena en la posición correspondiente de la matriz $L_{ik}$.Eliminación: Se actualiza la fila $i$ de la matriz $U$ restándole la fila del pivote multiplicada por $\lambda$, generando ceros debajo de la diagonal principal.Resolución del Sistema:Se aplica la permutación al vector $b$: $b' = Pb$.Se resuelve $Lz = b'$ despejando $z$ progresivamente (hacia adelante).Se resuelve $Ux = z$ despejando $x$ regresivamente (hacia atrás).
 
 ## 3.3.3.1. Pseudocódigo
 ```
+ALGORITMO Descomposición_LU_Pivoteo
+ENTRADA: Matriz A (n x n), Vector b (n)
+SALIDA: Vector solución x
+
+INICIO
+    // 1. Inicialización
+    n = longitud(A)
+    L = Matriz Identidad(n)
+    U = Copia(A)
+    P = Matriz Identidad(n)
+
+    // 2. Factorización PA = LU
+    PARA k DESDE 0 HASTA n-2 HACER:
+        
+        // a) Pivoteo Parcial
+        pivote_max = |U[k,k]|
+        fila_pivote = k
+        
+        PARA i DESDE k+1 HASTA n-1 HACER:
+            SI |U[i,k]| > pivote_max ENTONCES:
+                pivote_max = |U[i,k]|
+                fila_pivote = i
+            FIN SI
+        FIN PARA
+        
+        SI fila_pivote != k ENTONCES:
+            Intercambiar filas k y fila_pivote en U
+            Intercambiar filas k y fila_pivote en P
+            // Importante: Intercambiar filas en L solo en la parte triangular inferior calculada
+            PARA j DESDE 0 HASTA k-1 HACER:
+                Intercambiar L[k,j] y L[fila_pivote,j]
+            FIN PARA
+        FIN SI
+        
+        // b) Eliminación Gaussiana y llenado de L
+        PARA i DESDE k+1 HASTA n-1 HACER:
+            factor = U[i,k] / U[k,k]
+            L[i,k] = factor
+            
+            PARA j DESDE k HASTA n-1 HACER:
+                U[i,j] = U[i,j] - factor * U[k,j]
+            FIN PARA
+        FIN PARA
+    FIN PARA
+
+    // 3. Resolución del Sistema
+    
+    // a) Aplicar permutación a b
+    b_prima = P * b  // Producto matricial o reordenamiento
+    
+    // b) Sustitución hacia adelante: Resolver Lz = b_prima
+    z = Vector de ceros(n)
+    z[0] = b_prima[0]
+    PARA i DESDE 1 HASTA n-1 HACER:
+        suma = 0
+        PARA j DESDE 0 HASTA i-1 HACER:
+            suma = suma + L[i,j] * z[j]
+        FIN PARA
+        z[i] = b_prima[i] - suma
+    FIN PARA
+    
+    // c) Sustitución hacia atrás: Resolver Ux = z
+    x = Vector de ceros(n)
+    x[n-1] = z[n-1] / U[n-1,n-1]
+    PARA i DESDE n-2 HASTA 0 CON PASO -1 HACER:
+        suma = 0
+        PARA j DESDE i+1 HASTA n-1 HACER:
+            suma = suma + U[i,j] * x[j]
+        FIN PARA
+        x[i] = (z[i] - suma) / U[i,i]
+    FIN PARA
+
+    RETORNAR x
+FIN
+
 
 ``` 
 
@@ -299,7 +375,9 @@ print("Buenas buenas")
 <br>
 <br>
 
-La descomposición LU, reforzada con pivoteo parcial, constituye el pilar de los métodos directos. Su elegancia teórica transforma un problema denso en dos sistemas triangulares triviales. Su verdadera fortaleza radica en la eficiencia para resolver sistemas con múltiples cargas ($b$) constantes y en su estabilidad controlada, lo que la convierte en la herramienta predilecta para simulaciones ingenieriles donde la precisión exacta es prioritaria sobre la velocidad de iteración aproximada.
+Discusión de ResultadosEl análisis teórico y algorítmico de la Descomposición LU revela un balance crítico entre costo computacional y versatilidad. Si bien la factorización inicial conlleva un costo de $O(n^3)$, idéntico a la eliminación gaussiana simple, la ventaja operativa se manifiesta en la reutilización de las matrices $L$ y $U$. Para sistemas donde la matriz de coeficientes es constante pero el vector de términos independientes varía, el costo marginal se reduce drásticamente a $O(n^2)$ por cada nueva solución. No obstante, se ha observado que la implementación ingenua es vulnerable a errores de redondeo; la incorporación del algoritmo de pivoteo parcial ($PA=LU$) no es opcional, sino un requisito indispensable para garantizar la estabilidad numérica en matrices mal condicionadas o con pivotes cercanos a cero.
+
+ConclusiónEn conclusión, la Descomposición LU, reforzada con pivoteo parcial, constituye el pilar de los métodos directos en álgebra lineal numérica. Su elegancia teórica transforma un problema denso y acoplado en dos sistemas triangulares triviales de resolver. Su verdadera fortaleza radica en la eficiencia para resolver múltiples sistemas y en su estabilidad controlada, lo que la convierte en la herramienta predilecta para simulaciones en ingeniería y ciencias aplicadas donde la precisión exacta y la robustez ante errores de punto flotante son prioritarias sobre la velocidad de aproximación de los métodos iterativos.
 
 ---
 
