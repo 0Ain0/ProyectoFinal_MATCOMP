@@ -94,6 +94,11 @@ Este método numérico requiere primero, para su justificación, las siguientes 
 
 ## 3.3.1 Definiciones Matemáticas
 
+3.1. Formulación Matemática
+•	El método de Descomposición LU (Lower-Upper) es un método directo para resolver sistemas de ecuaciones lineales Ax = b de manera eficiente.
+•	La idea central de la descomposición LU es factorizar una matriz cuadrada A en el producto de dos matrices: una matriz triangular inferior L (Lower) y una matriz triangular superior U (Upper). 
+A = LU (1)  
+
 El método se implementa mediante la factorización con pivoteo parcial para garantizar la estabilidad numérica:$$PA = LU$$Donde $P$ es una matriz de permutación, L es triangular inferior con unos en la diagonal, y U es triangular superior.Al sustituir en Ax=b, obtenemos LUx = Pb. Definimos b' = Pb$ y un vector auxiliar z = Ux. El problema se resuelve en dos pasos:Paso 1: Sustitución hacia adelante ($Lz = b'$).Se despeja$z comenzando desde la primera fila:z_i = b'_i - \sum_{j=1}^{i-1} L_{ij}z_j, \quad \text{para } i=2, \dots, n \quad (\text{con } z_1 = b'_1)Paso 2: Sustitución hacia atrás (Ux = z).Se despeja x comenzando desde la última fila:$$   x_i = \frac{1}{U_{ii}} \left( z_i - \sum_{j=i+1}^{n} U_{ij}x_j \right), \quad \text{para } i=n-1, \dots, 1 \quad (\text{con } x_n = \frac{z_n}{U_{nn}})$$
 
 ### Matriz Cuadrada 
@@ -115,6 +120,85 @@ Esto es útil tambien para referirnos a partes de una matriz $A$ lo suficienteme
 Además, en dado caso de tener un vector $v$ con dimensiones $n\times 1$, la multiplicación $v e_k^T$ será una matriz cuadrada $n\times n$ con todos los valores $0$ a excepción de la columna $k$ que contendrá los valores de $v$. 
 
 ## 3.3.2. Justificación Teórica de la Descomposición LU
+
+3.2.1 Fundamento y Factorización (PA = LU)
+
+•	En su forma más robusta y estable numéricamente, la factorización incluye una matriz de permutación P, resultante de la técnica de pivoteo parcial. La descomposición se formula como: 
+
+PA = LU
+•	Donde:
+o	L es una matriz triangular inferior, generalmente con unos en su diagonal (variante Doolittle).
+o	U es una matriz triangular superior, que es el resultado de aplicar la eliminación gaussiana a A.
+o	P es la Matriz de Permutación, que registra los intercambios de filas necesarios para la estabilidad.
+•	Al aplicar esta factorización al sistema original Ax = b, el problema se transforma en: LUx = Pb. Este proceso divide la resolución en dos fases de sustitución secuenciales y eficientes.
+
+•	3.3. Proceso de Solución por Sustitución
+
+o	Una vez que se obtiene esta factorización (un proceso que tiene la misma complejidad computacional O(n^3) que la eliminación gaussiana), resolver el sistema original Ax = b se vuelve muy eficiente:
+1.	Se sustituye A = LU en la ecuación original:
+(LU)x = b
+2.	Se agrupan los términos:
+L(Ux) = b
+3.	Introducimos un vector auxiliar z tal que z = Ux. Esto divide el problema original en dos etapas o subsistemas secuenciales: 
+Lz = b    y   Ux = z
+
+3.2.2 - Paso 1: Sustitución hacia adelante
+•	El primer objetivo es encontrar el vector z resolviendo el sistema Lz = b. Dado que L es triangular inferior, el sistema tiene la siguiente estructura:
+
+
+
+
+
+
+•	Podemos despejar z_1 directamente de la primera fila (z_1 = b_1) y usar ese valor para hallar z_2, y así sucesivamente. La fórmula general para calcular cada elemento z_i es:
+
+
+
+
+o	Para i=1, la sumatoria es vacía, por lo que z_1 = b_1).
+3.2.3 Paso 2: Sustitución hacia adelante
+•	Una vez conocido el vector z, procedemos a encontrar el vector solución final x resolviendo el sistema Ux = z. Como U es triangular superior, el sistema se presenta así:
+
+
+
+
+
+
+
+
+•	En este caso, el proceso es inverso: se despeja primero la última incógnita x_n y se sustituye hacia arriba. La fórmula general para calcular cada elemento x_i es:
+
+
+
+
+
+o	Nota: Para el último elemento, x_n = Z_n/U_nn
+
+
+
+
+
+
+3.3. Análisis de Error y Estabilidad Numérica
+•	La formulación teórica A=LU es elegante, pero en la práctica numérica, es fundamentalmente inestable.  El “Análisis de Error” para métodos de EDOs significa truncamiento. Para la descomposición LU, el análisis de error se centra en la estabilidad numérica y los errores de redondeo inherentes al cálculo en punto flotante de las computadoras.
+•	El Problema del Pivote: El algoritmo de factorización (eliminación gaussiana) falla si en algún paso k, el elemento de la diagonal A_{kk} (el pivote) es cero, ya que requiere dividir por este elemento. Peor aún, si el pivote no es cero, pero es un número muy pequeño en magnitud comparado con otros elementos de la fila, cualquier error de redondeo en los datos se amplificará masivamente, llevando a una solución completamente incorrecta (Burden et al., 2017).
+•	La Solución: Pivoteo (Pivoting) Para garantizar la estabilidad numérica, la descomposición LU casi nunca se usa en su forma pura. Se implementa con una estrategia de pivoteo.
+o	Pivoteo Parcial: Es la estrategia más común. En cada paso k de la eliminación, antes de realizar las operaciones, el algoritmo busca el elemento con el mayor valor absoluto en la columna k (desde la fila k hasta la última fila). Luego, intercambia la fila actual k con la fila que contiene ese elemento máximo.
+	Resultado: Esto no produce la factorización A=LU, sino PA = LU.
+	P es una matriz de permutación (una matriz identidad con filas reordenadas) que registra los intercambios de filas.
+	El sistema para resolver se transforma en PAx = Pb. El proceso de sustitución (hacia adelante y hacia atrás) se aplica entonces a Lz = Pb y Ux = z. Esta estrategia previene la división por números pequeños y es estable en la práctica para la gran mayoría de las matrices.
+o	Pivoteo Total (Completo): Una estrategia más robusta (y más costosa computacionalmente) que busca el elemento de mayor magnitud en toda la submatriz restante y realiza un intercambio de fila y columna. Esto resulta en PAQ = LU.
+•	Condicionamiento de la Matriz: es importante diferenciar el error del método del error del problema. Si una matriz A es "casi singular" (su determinante es muy cercano a cero), se dice que está mal condicionada. Para un problema mal condicionado, incluso pequeños cambios en los datos de entrada (la matriz A o el vector b) pueden provocar cambios enormes en la solución x. Ningún algoritmo, por estable que sea, puede curar un problema intrínsecamente mal condicionado.
+3.4. Ventajas y Aplicaciones
+1.	Eficiencia para Múltiples Vectores b: Esta es la ventaja principal. El cálculo de la factorización (PA=LU) es costoso (O(n^3)). Sin embargo, una vez que se tiene, resolver el sistema para un nuevo vector b solo requiere los dos pasos de sustitución (adelante y atrás), que son computacionalmente muy rápidos (O(n^2)). Esto es ideal en escenarios donde la matriz A (que representa un sistema físico, por ejemplo) es constante, pero las "cargas" (el vector b) cambian.
+2.	Cálculo del Determinante: El determinante de A se puede obtener casi gratis de la factorización. Dado que PA=LU, se tiene que det(P)det(A) = det(L)det(U).
+o	det(L) es el producto de su diagonal (que usualmente es 1).
+o	det(U) es el producto de su diagonal (los pivotes).
+o	det(P) es +1 o -1, dependiendo del número de intercambios de fila.
+3.	Cálculo de la Inversa: Aunque calcular la inversa de una matriz (A^ {-1}) rara vez es una buena idea en la práctica (es más lento e inestable que resolver Ax=b), la factorización LU es un paso fundamental para hacerlo. Encontrar la inversa equivale a resolver Ax_i = e_i para cada columna e_i de la matriz identidad. Usando LU, esto se convierte en n resoluciones rápidas (O(n^2)) usando la misma factorización LU.
+
+
+
 Sea $A\in M_{n\times n}(\mathbb{R})$, lo que buscamos es la secuencia finita $\{ L_k\in M_{n\times n}: 1\leq k \leq n\}$ tales que para $x_k$ la $k$-ésima columna de la matríz $A$ ($x_k = Ae_k$): 
 $$
 x_k = \begin{bmatrix}
@@ -179,6 +263,8 @@ Así pues, el despeje $LU$ fue único para $A$. Como observación final, es faci
 <br>
 
 ## 3.3.3. Algoritmo de la Descomposición LU
+
+
 ## 3.3.3.1. Pseudocódigo
 ```
 
