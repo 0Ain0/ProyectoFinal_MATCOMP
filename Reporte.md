@@ -67,6 +67,9 @@ Los sistemas de ecuaciones lineales, así como su representación matricial son 
 
 # 3.2 Revisión de la Literatura
 
+<br>
+<br>
+
 # 3.3 Metodología
 Este método numérico requiere primero, para su justificación, las siguientes herramientas y conceptos matemáticos. 
 
@@ -148,7 +151,7 @@ Por cerradura de las matrices triangulares, $L_2^{-1}L_1$ es triangular inferior
 $$
 L_2^{-1}L_1 = U_2 U_1^{-1} = I\ \ \ \ \Longrightarrow\ \ \ \ L_1 = L_2\  \land\ U_1 = U_2
 $$
-Así pues, el despeje $LU$ fue único para $A$. Como observación final, es facil ver que  $L$ es facil de obtener, al no ser necesario ningún despeje u operación entre matrices. Mientras que $U$ se puede obtener al tiempo que se genera $L$. Con esto queda demostrada la existencia y unicidad de $L, U$, además de dar una pauta para la obtención de dichas matrices.
+Así pues, el despeje $LU$ fue único para $A$. Como observación final, es facil ver que  $L$ es facil de obtener, al no ser necesario ningún despeje u operación entre matrices. Mientras que $U$ se puede obtener al tiempo que se genera $L$. Con esto **queda demostrada la existencia y unicidad de $L, U$**, además de dar una pauta para la obtención de dichas matrices.
 
 ## 3.3.3. Algoritmo de la Descomposición LU
 ## 3.3.3.1. Pseudocódigo
@@ -215,7 +218,7 @@ En el caso en que se use ($>$), a esto se le llaman **estrictamente diagonalment
 ### Teorema de Convergencia Gauss-Seidel
 Sea el sistema dado por $Ax = b$, con $A\in M_{n\times m}(F)$ y $x, b$ vectores de tamaño $n\times 1$. Si $A$ es estríctamente diagonalmente dominante, entonces el método de **Gauss-Seidel** converge para cualquier aproximación inicial $x^{(0)}$. 
 
-# 4.3.2. Justificación Teórica del Método SOR 
+## 4.3.2. Justificación Teórica del Método SOR 
 Entonces dado un sistema $Ax = b$, con $A\in M_{n\times n}(F)$ matriz y $x, b$ vectores de tamaño $n\times 1$. Generamos así la descomposición estándar de la matriz $A$: 
 $$
 A = D - L - U
