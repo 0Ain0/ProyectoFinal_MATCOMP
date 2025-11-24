@@ -154,11 +154,32 @@ $$
 Así pues, el despeje $LU$ fue único para $A$. Como observación final, es facil ver que  $L$ es facil de obtener, al no ser necesario ningún despeje u operación entre matrices. Mientras que $U$ se puede obtener al tiempo que se genera $L$. Con esto **queda demostrada la existencia y unicidad de $L, U$**, además de dar una pauta para la obtención de dichas matrices.
 
 ## 3.3.3. Algoritmo de la Descomposición LU
+Como se puede apreciar en la deducción matemática, las opraciones de inversa para las $L_i$ son sumamente simples de efectuar, así como el despeje de cada entrada de $L$ se puede obtener de manera directa, lo que hace al algoritmo sumamente efectivo dado que es de matrices. Con esto, Lloyd N. y David Bau, agregan que no es necesario almacenar $A, L$ o $U$ en distintas matrices. 
+
+Generamos una matriz partiendo de la identidad, y vamos a encontrar todos los $l_{jk}$, es decir, los factores de la triangular inferior estricta de $L$ para con ellos actualizar las entradas de $U$, haciendo la Eliminación Gaussiana. 
+
+El pseudo código a continuación supone que la matríz $A$ dada es válida, es decir, $\forall k\leq n$, $A_{kk} \neq 0$. Con $n$ claro el tamaño de la matriz $A$, es decir $A \in M_{n\times n}(F)$.  
+
 ## 3.3.3.1. Pseudocódigo
 ```
+tome U, L matrices n x n
 
+U = A, L = I
+
+para k = 1 hasta n - 1
+
+   para i = k + 1 hasta n
+      l_ik = u_ik/u_kk
+      
+      para j = k hasta n
+         u_ij -= l_ik * u_kj
+      fin para
+   fin para
+fin para
+
+retornar L, U
 ``` 
-
+Es importante notar que este algoritmo tiene **complejidad $O(n^3)$**, lo que implica que su funcionamiento en menos de $1$ segundo, estará limitado a matrices de a lo más $n = 10^3$, suponiendo una cantidad de operaciones $\approx 10^9$ por segundo. 
 <br>
 <br>
 
@@ -264,7 +285,7 @@ T_{SOR} = (D - \omega L)^{-1}[(1 - \omega)D + \omega U],\ \ \ \mathbf{c}_{SOR} =
 $$
 Con lo que el despeje final queda de la manera: 
 $$
-x^{(k+1)} = T_{SOR}\mathbf{x}^{(k)} + c_{SOR}
+x^{(k+1)} = T_{SOR}x^{(k)} + c_{SOR}
 $$
 
 > Es importante notar que por teorema, para asegurar la **convergencia** del método **SOR**, $0 < \omega < 2$, esto se puede ver en el Teorema 6.4 de *Applied Numerical Linear Algebra* de J. Demmel. 
@@ -272,15 +293,55 @@ $$
 <br>
 <br>
 
-## 4.3.3. Algoritmo de la Descomposición LU
+## 4.3.3. Algoritmo del SOR
+Como vamos a hacer una mejora del método Gauss-Seidel, tomaremos como parámetro de relajación a $\omega$, con $1 < \omega < 2$, es decir, una sobrerrelajación. 
+
+El pseudocódigo a continuación supone que la entrada corresponde a una matríz diagonalmente dominante, así como un conjunto de $n$-términos independientes $b$. Observe además que le damos criterios `max_iter` y `tol` para evitar una sobrecarga de operaciones, es decir, damos parámetros de cuántos pasos máximos y cuál  es la tolerancia del error de la solución $x$ encontrada.
+
 ## 4.3.3.1. Pseudocódigo
 ```
+entrada 
+   A // matriz 
+   b // vector de terminos independientes
+   x // vector de aproximación inicial
+   omega // factor de relajación
+   tol // tolerancia de alto
+   max_iter // máximo de iteraciones
 
+n = filas de A
+iter = 0
+error = tol + 1
+
+mientras error > tol e iter < max_iter
+   error = 0
+   
+   para i = 1 hasta n
+      sum = 0
+      xprev = x_i
+
+      para j = 1 hasta n
+         si j != i
+            sum += A_ij * x_j
+         fin si 
+      fin para 
+
+      
+      x_i = (1-omega)*x_i + omega(b_i - sum)/a_ii
+
+      error = MAX(error, ABS(x_i - xprev))
+   fin para 
+
+   iter += 1
+fin mientras
+
+retorno x, iter, error
 ``` 
+Este algoritmo dadas $n$ y $m$ = `max_iter`, tiene complejidad $O(mn^2)$. Con lo que así como el algoritmo pasado, suponiendo $10^9$ operaciones por segundo, limitamos $m, n$ para estar de acorde con estas. Además, es importante tener en cuenta que `tol`, estará íntimamente relacionada con el tipo de dato que almacene los valores decimales de $x$. 
+
 <br>
 <br>
 
-# 4.4. Aplicación de la Descomposición LU
+# 4.4. Aplicación del SOR
 ## 4.4.1. Problema 1:
 ## 4.4.1.1. Desarrollo Explícito
 ## 4.4.1.2. Resultado del Código
