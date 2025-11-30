@@ -30,11 +30,12 @@
 ### **Profesor:** David Iván Morales Huerta
 
 ### **Equipo:**
-- Cecilia 
-- Casta
-- Santiago Medina Domínguez  
-- Santiago Espinosa Ollivier
 - Ain Bolaños Cortés
+- Casta
+- Santiago Espinosa Ollivier
+- Cecilia Gaona Vidales 
+- Santiago Medina Domínguez 
+
 
 <br>
 
