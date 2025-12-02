@@ -49,7 +49,6 @@ def lu_decomposition(A):
 
     return L, U
 
-
 if __name__ == "__main__":
     A = [
         [2, 1, 1],
