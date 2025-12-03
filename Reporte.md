@@ -584,106 +584,73 @@ La descomposición LU ha demostrado ser una herramienta robusta para la resoluci
 
 ## 4.1 Introducción del Método
 
-<div style="text-align: justify;">
+Una vez comprendido el funcionamiento de Gauss-Seidel, contamos con un método iterativo que busca una solución aproximada reduciendo el costo computacional de las soluciones exactas.
 
-Una vez tenemos el concepto del funcionamiento de Gauss-Seidel, tenemos pues un método iterativo que busca una solución *aproximada* que reduce el costo potencial de soluciones exactas. Ahora, **SOR** agregará una variable $\omega$ para controlar y eficientar el paso de aproximación de las iteraciones, a esto se le conoce como un **parámetro de relajación**. Para que este parámetro funcione se debe cumplir una condición necesaria y que el parámetro de $\omega$ se encuentre en el intervalo abierto de 0 < $\omega$ < 2. Si eliges un $\omega$ fuera de este rango el error crecerá en lugar de disminuir.
-Existen algunos casos dependiendo el valor del rango que tomes como:
+Sobre esta base, el método **SOR** agrega una variable **$\omega$**, conocida como **parámetro de relajación**, para controlar y eficientar la aproximación en cada iteración. Para que este método funcione, se debe cumplir una **condición necesaria**: el parámetro $\omega$ debe encontrarse en el intervalo abierto **$0 < \omega < 2$**. Si se elige un valor fuera de este rango, el error crecerá en lugar de disminuir.
 
-- **Subrelajación (0 < $\omega$ < 1):** Se usa para frenar el paso. Es útil para hacer converger sistemas que con Gauss-Seidel no convergerían.
+Dependiendo del valor elegido, el comportamiento del método cambia:
+* **Subrelajación ($0 < \omega < 1$):** Se usa para "frenar" el paso. Es útil para lograr la convergencia en sistemas que con Gauss-Seidel no convergerían.
+* **Gauss-Seidel ($\omega = 1$):** Es el punto neutro (el método estándar).
+* **Sobrerrelajación ($1 < \omega < 2$):** Se usa para acelerar la llegada a la solución en sistemas que ya son estables.
 
-- **Gauss-Seidel ($\omega$ = 1):** Es el punto neutro.
-
-- **Sobrerrelajación (1 < $\omega$ < 2):** Se usa para acelerar la llegada a la solución de sistemas que ya son estables.
-
-</div>
-
-### 4.1.1 Planteamiento del Problema
+### Planteamiento del Problema
 
 El problema se plantea de la siguiente forma:
 
-Ax = b
+$$Ax = b$$
 
-Debes encontrar el vector que te de la solución de x para un sistema de ecuaciones lineales algebraicas.
+El objetivo es encontrar el vector solución **x** para un sistema de ecuaciones lineales algebraicas.
 
-**Donde**
-
-- A es una matriz de coeficiente de tamaño n * n 
-
-- x es el vector que se debe encontrar este es de tamaño n * 1 para que coincida con b
-
-- b es el vector de términos independientes de tamaño n x 1
+**Donde:**
+* **A:** Es una matriz de coeficientes de tamaño $n \times n$.
+* **x:** Es el vector incógnita que se debe encontrar (de tamaño $n \times 1$ para coincidir con **b**).
+* **b:** Es el vector de términos independientes de tamaño $n \times 1$.
 
 **Las condiciones son:**
+* Se tiene un punto de partida o aproximación inicial $\mathbf{x}^{(0)}$.
+* Un acelerador $\omega$ que actúa como parámetro de relajación.
 
-- Tienes un punto de partida x^0
-- Un acelerador $\omega$ que es el parámetro de relajación
+### Metodología de Solución
 
-<br>
-<br>
+**1. Verificación Previa**
+Antes de empezar, se debe verificar que la matriz **A** no tenga ceros en la diagonal principal ($a_{ii} \neq 0$), ya que estos valores se utilizan como divisores. Además, el parámetro de relajación $\omega$ debe elegirse dentro del rango $0 < \omega < 2$.
 
-### 4.1.2 Contexto Histórico
-
-**Antecedentes:**
-
-Carl Friedrich Gauss, en 1823, introdujo las bases de las técnicas iterativas, estas técnicas se las transmitió a uno de sus alumnos, Christian Gerling. Tiempo después, Philipp L. von Seidel formalizó el método en 1874 analizando sistemas de mínimos cuadrados. El algoritmo resultante lleva el nombre conjunto de **Gauss-Seidel**, que converge para matrices estrictamente diagonalmente dominantes o simétricas definidas positivas, aunque su velocidad de convergencia suele ser lenta para sistemas grandes.
-
-**Desarrollo del SOR:**
-
-El método SOR fue propuesto en 1950 por David M. Young Jr. y Stanley P. Frankel con el propósito de resolver sistemas lineales en ordenadores digitales.
-Young estableció la teoría matemática rigurosa, demostrando la relación entre el radio espectral de la matriz y el parámetro óptimo de relajación ($\omega$).
-Frankel se enfocó en la aplicación práctica para computadoras digitales tempranas.
-Anteriormente a estos métodos ya existían algunos como el de Lewis Fry Richardson, y los métodos desarrollados por R. V. Southwell. Sin embargo estos no se podían aplicar a computadoras digitales o, en el caso de Southwell, eran ineficientes porque requerían intervención visual humana.
-<br>
-<br>
-
-### 4.1.3 Metodología de Solución
-
-**Antes de empezar:**
-
-Verificar que la matriz A no deba de tener ceros en la diagonal principal porque se deben de dividir estos valores.
-Para el parámetro de relajación $\omega$ debe de elegirse dentro del rango 0 < $\omega$ < 2.
-
-**Fórmula iterativa:**
-
-Para cada incógnita $x_i$ en la iteración k + 1 aplicamos la siguiente fórmula:
+**2. Fórmula Iterativa**
+Para cada incógnita $x_i$ en la iteración $k+1$, aplicamos la siguiente fórmula:
 
 $$x_i^{(k+1)} = (1 - \omega) x_i^{(k)} + \frac{\omega}{a_{ii}} \left( b_i - \sum_{j=1}^{i-1} a_{ij} x_j^{(k+1)} - \sum_{j=i+1}^{n} a_{ij} x_j^{(k)} \right)$$
 
-La interpretación de la fórmula es un promedio ponderado:
+La interpretación de la fórmula es un **promedio ponderado**:
+* El primer término $(1 - \omega) x_i^{(k)}$ considera el valor de la iteración anterior.
+* El segundo término (la fracción) representa la corrección calculada mediante el método de Gauss-Seidel.
 
-El primer término $(1 - \omega) x_i^{(k)}$
+**3. Proceso Algorítmico**
+* **Inicio:** Se define un vector semilla $\mathbf{x}^{(0)}$ (por defecto suele ser un vector de ceros) y se establece un número máximo de iteraciones ($N$).
+* **Ciclo Iterativo:** Para cada iteración $k = 1$ hasta $N$, se recorre cada fila $i$ de la matriz (de 1 a $n$). Se calcula el nuevo valor $x_i$ utilizando los valores más recientes de la iteración actual (para las columnas $j < i$) y los valores de la iteración anterior (para las columnas $j > i$).
 
-el segundo término que es la fracción es la corrección de Gauss-Seidel
-
-**Proceso:**
-
-Inicio: Se define un vector $\mathbf{x}^{(0)}$ por defecto suele ser un vector de ceros y se establece un número máximo de iteraciones (N)
-
-Ciclo iterativo: Por cada iteración k = 1 hasta N:
-
-Se recorre cada fila i de la matriz (de 1 a n)
-
-Se calcula el nuevo valor $x_i$ utilizando los valores de la iteración (para las columnas j < i) y los valores de la iteración anterior (para las columnas j > i).
-
-**Calcular el error:**
-
-Al final de cada ciclo completo se calcula el error relativo o la norma de la diferencia entre el vector nuevo y el anterior.
-
+**4. Criterios de Parada**
+Al final de cada ciclo completo, se calcula la norma de la diferencia entre el vector nuevo y el anterior:
 $$||\mathbf{x}^{(k+1)} - \mathbf{x}^{(k)}|| < \text{Tolerancia}$$
 
-**Hay dos criterios de parada:**
+* **Convergencia:** Si el error es menor que la tolerancia establecida, el proceso se detiene y se entrega el último vector calculado como solución.
+* **Divergencia:** Si se alcanza el número máximo de iteraciones sin cumplir la tolerancia, el método se detiene indicando que no convergió.
 
-Convergencia: Si el error es menor que la tolerancia establecida, el proceso se detiene y se entrega el último vector calculado como la solución aproximada.
-
-Divergencia: Si se alcanza el número máximo de iteraciones sin cumplir la tolerancia, el método se detiene indicando que no convergió.
-
-<br>
-<br>
+---
 
 ## 4.2 Revisión de la Literatura
 
-<br>
-<br>
+La fundamentación de este método se basa en una evolución histórica y teórica bien documentada, que abarca desde los métodos manuales del siglo XIX hasta la computación digital moderna.
+
+**Contexto Histórico**
+
+* **Antecedentes:** Carl Friedrich Gauss, en 1823, introdujo las bases de las técnicas iterativas y transmitió estos conceptos a uno de sus alumnos, Christian Gerling. Tiempo después, Philipp L. von Seidel formalizó el método en 1874 analizando sistemas de mínimos cuadrados. El algoritmo resultante lleva el nombre conjunto de **Gauss-Seidel**; este converge para matrices estrictamente diagonalmente dominantes o simétricas definidas positivas, aunque su velocidad de convergencia suele ser lenta para sistemas grandes.
+
+* **Desarrollo del SOR:** El método SOR fue propuesto en 1950 por **David M. Young Jr.** y **Stanley P. Frankel** con el propósito de resolver sistemas lineales en ordenadores digitales.
+    * **Young** estableció la teoría matemática rigurosa, demostrando la relación entre el radio espectral de la matriz y el parámetro óptimo de relajación ($\omega$).
+    * **Frankel** se enfocó en la aplicación práctica para computadoras digitales tempranas.
+
+Anteriormente ya existían técnicas como la de Lewis Fry Richardson y los métodos desarrollados por R. V. Southwell. Sin embargo, estos no se podían aplicar eficientemente a computadoras digitales o, en el caso de Southwell, eran ineficientes porque requerían intervención visual humana.
+
 
 ## 4.3 Metodología
 
