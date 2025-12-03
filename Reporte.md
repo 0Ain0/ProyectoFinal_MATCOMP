@@ -586,7 +586,7 @@ La descomposición LU ha demostrado ser una herramienta robusta para la resoluci
 
 <div style="text-align: justify;">
 
-Una vez tenemos el concepto del funcionamiento de Gauss-Seidel, tenemos pues un método iterativo que busca una solución *aproximada* que reduce el costo potencial de soluciones exactas. Ahora, **SOR** agregará una variable $\omega$ para controlar y eficienciar el paso de aproximamiento de las iteraciones, a esto se le conoce como un **parámetro de relajación**. Para que este parámetro funcione se debe de cumplir una condición necesaria y que el parámetro de $\omega$ se encuentre en el intervalo abierto de 0 < $\omega$ < 2. Si eliges un $\omega$ fuera de este rango el error crecerá en lugar de disminuir.
+Una vez tenemos el concepto del funcionamiento de Gauss-Seidel, tenemos pues un método iterativo que busca una solución *aproximada* que reduce el costo potencial de soluciones exactas. Ahora, **SOR** agregará una variable $\omega$ para controlar y eficientar el paso de aproximación de las iteraciones, a esto se le conoce como un **parámetro de relajación**. Para que este parámetro funcione se debe cumplir una condición necesaria y que el parámetro de $\omega$ se encuentre en el intervalo abierto de 0 < $\omega$ < 2. Si eliges un $\omega$ fuera de este rango el error crecerá en lugar de disminuir.
 Existen algunos casos dependiendo el valor del rango que tomes como:
 
 - **Subrelajación (0 < $\omega$ < 1):** Se usa para frenar el paso. Es útil para hacer converger sistemas que con Gauss-Seidel no convergerían.
@@ -603,13 +603,13 @@ El problema se plantea de la siguiente forma:
 
 Ax = b
 
-Debes de encontrar el vector que te de la solución de x para un sistema de ecuaciones lineales algebraicas.
+Debes encontrar el vector que te de la solución de x para un sistema de ecuaciones lineales algebraicas.
 
 **Donde**
 
 - A es una matriz de coeficiente de tamaño n * n 
 
-- x es el vector que se debe de encontrar este es de tamaño n * 1 para que coincida con b
+- x es el vector que se debe encontrar este es de tamaño n * 1 para que coincida con b
 
 - b es el vector de términos independientes de tamaño n x 1
 
@@ -653,7 +653,7 @@ La interpretación de la fórmula es un promedio ponderado:
 
 El primer término $(1 - \omega) x_i^{(k)}$
 
-el segundo término que es la fracción es la correción de Gauss-Seidel
+el segundo término que es la fracción es la corrección de Gauss-Seidel
 
 **Proceso:**
 
