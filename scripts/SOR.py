@@ -53,18 +53,18 @@ def sor(A, b, x0, omega, tol=1e-6, max_iter=1000):
 
 if __name__ == "__main__":
     A = [
-        [ 2.0,  1.0,  1.0],
-        [ 4.0, -6.0,  0.0],
-        [-2.0,  7.0,  2.0]
+        [ 4.0,  1.0,  0.0],
+        [ 1.0, 4.0,  1.0],
+        [0.0,  1.0,  4.0]
     ]
 
-    b = [5.0, -2.0, 9.0]
+    b = [5.0, 6.0, 5.0]
 
     x0 = [0.0, 0.0, 0.0]
 
     omega = 1.2
 
-    x, iters, err = sor(A, b, x0, omega, tol=1e-6, max_iter=1000)
+    x, iters, err = sor(A, b, x0, omega, tol=0.07, max_iter=1000)
 
     print("Solución aproximada x:", x)
     print("Iteraciones:", iters)

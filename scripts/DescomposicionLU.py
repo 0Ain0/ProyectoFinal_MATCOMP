@@ -50,17 +50,77 @@ def lu_decomposition(A):
     return L, U
 
 
+# # SUGERENCIA PARA PODER RESOLVER EL SISTEMA, NO SOLO DESCOMPONER
+
+def solve_lu(L, U, b):
+    """
+    Resuelve el sistema Ax = b usando las matrices L y U obtenidas.
+    1. Ly = b (Sustitución hacia adelante)
+    2. Ux = x (Sustitución hacia atrás)
+    """
+    n = len(L)
+    
+    # 1. Resolver Ly = b
+    y = [0.0] * n
+    for i in range(n):
+        suma = sum(L[i][j] * y[j] for j in range(i))
+        y[i] = b[i] - suma
+    
+    # 2. Resolver Ux = y
+    x = [0.0] * n
+    for i in range(n - 1, -1, -1):
+        suma = sum(U[i][j] * x[j] for j in range(i + 1, n))
+        x[i] = (y[i] - suma) / U[i][i]
+        
+    return x
+
+# #######################################################################
+
+
+# if __name__ == "__main__":
+#     A = [
+#         [2, 1, 1],
+#         [4, -6, 0],
+#         [-2, 7, 2]
+#     ]
+
+#     L, U = lu_decomposition(A)
+
+#     print("\n===== MATRIZ FINAL L =====")
+#     print_matrix("L", L)
+
+#     print("===== MATRIZ FINAL U =====")
+#     print_matrix("U", U)
+
+
+# NUEVO MAIN PARA RESOLVER LOS DOS PROBLEMAS DE APLICACIÓN
+
 if __name__ == "__main__":
-    A = [
-        [2, 1, 1],
-        [4, -6, 0],
-        [-2, 7, 2]
+    # === PROBLEMA 1 ===
+    print("\n\n################ PROBLEMA 1 ################")
+    A1 = [
+        [1, 1, 1],
+        [1, 2, 2],
+        [1, 2, 3]
     ]
+    b1 = [6, 9, 10]
+    
+    L1, U1 = lu_decomposition(A1)
+    x1 = solve_lu(L1, U1, b1)
+    
+    print("\n>>> SOLUCIÓN PROBLEMA 1 (x):", x1)
+    # Debería dar [1.0, 1.0, 3.0] o similar
 
-    L, U = lu_decomposition(A)
-
-    print("\n===== MATRIZ FINAL L =====")
-    print_matrix("L", L)
-
-    print("===== MATRIZ FINAL U =====")
-    print_matrix("U", U)
+    # === PROBLEMA 2 (CIRCUITOS) ===
+    print("\n\n################ PROBLEMA 2 (CIRCUITOS) ################")
+    A2 = [
+        [10, -5, 0],
+        [-5, 15, -5],
+        [0, -5, 10]
+    ]
+    b2 = [10, 0, 0] # 10V en la primera malla, 0 en las otras
+    
+    L2, U2 = lu_decomposition(A2)
+    x2 = solve_lu(L2, U2, b2)
+    
+    print("\n>>> SOLUCIÓN PROBLEMA 2 (Corrientes):", x2)
