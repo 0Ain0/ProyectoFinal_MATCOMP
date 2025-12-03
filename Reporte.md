@@ -47,24 +47,24 @@
 <br>
 
 
-<div style="page-break-after: always;"></div>
+<div style="page-break-after: always;">
 
 
 # 1. Resumen General del Reporte
 
-<div style="text-align: justify;">
+
 
 Este reporte desarrolla, explica, justifica e implementa los métodos de descomposición LU y el método Gauss-Seidel para la resolución de sistemas de ecuaciones lineales. Con un enfoque en su resolución automatizada computable. Dando así la justificación teórico mátemática y su implementación algorítmica en Python.
 <br>
 
-</div>
+
 
 <br>
 <br>
 
 # 2. Introducción
 
-<div style="text-align: justify;">
+
 
 Los sistemas de ecuaciones lineales, así como su representación matricial son un problema típico de la computación, en áreas relevantes como la Visión de Computadora, la criptografía, los gráficos y el machine learning, así como en las simulaciones físicas y el análisis matemático.
 <br> 
@@ -74,7 +74,7 @@ Y de la misma manera en que los conceptos del álgebra lineal son relevantes par
 Es por esto que, en este reporte analizaremos dos métodos para resolver estos problemas de matrices donde la computación puede fallar, debido a la complejidad y logitud de los sistemas de eciaciones lineales.
 <br>
 
-</div>
+
 
 <br>
 <br>
@@ -83,7 +83,7 @@ Es por esto que, en este reporte analizaremos dos métodos para resolver estos p
 
 ## 3.1. Introducción del Método
 
-<div style="text-align: justify;">
+
 
 Como ya vimos, el problema reside en el análisis numérico y la computación científica, y se expresa en forma matricial $Ax = b$.
 <br>
@@ -92,7 +92,7 @@ Este tipo de sistemas aparece en casi todos los ámbitos de la ingeniería y las
 <br>
 El método de Descomposición LU es uno de los métodos directos más fundamentales y eficientes. No es simplemente un algoritmo, sino una factorización de la matriz A que transforma el problema $Ax = b$ en un proceso de dos pasos mucho más simple de resolver. Esta investigación se centrará en la fundamentación teórica, la formulación matemática, el análisis de estabilidad y las ventajas de este crucial método.
 
-</div>
+
 
 <!-- ### 3.1.1 Planteamiento del Problema
 ### 3.1.2 Contexto Histórico
@@ -102,7 +102,7 @@ El método de Descomposición LU es uno de los métodos directos más fundamenta
 
 ## 3.2 Revisión de la Literatura
 
-<div style="text-align: justify;">
+
 
 La factorización LU construye la formalización directa del método de eliminación gaussiana, que es un algoritmo muy antiguo con una historia de más de dos mil años. Sin embargo, hoy en día vista como una factorización de matrices resultó crucial para el desarrollo de las computadoras digitales. Alan Turing llegó a utilizar esta factorización como una de las herramientas centrales tratando de encontrar el análisis de errores en las computaciones basados en matrices, esto visto en su trabajo de 1948 "Rounding-Off Errors in Matrix Processes".
 <br>
@@ -111,17 +111,17 @@ Los textos considerados canónicos de álgebra lineal numérica, los de Golub & 
 <br>
 La literatura no sólo se esfuerza por describir el algoritmo básico, sino que lo hace por describir, y exclusivamente por el mismo, las versiones estables que tienen pivoteo, indispensable para la aplicación práctica de estas ideas.
 
-</div>
+
 
 <br>
 
 ## 3.3 Metodología
 
-<div style="text-align: justify;">
+
 
 Este método numérico requiere primero, para su justificación, las siguientes herramientas y conceptos matemáticos. 
 
-</div>
+
 
 <br>
 
@@ -129,19 +129,19 @@ Este método numérico requiere primero, para su justificación, las siguientes 
 
 ***Matriz Cuadrada:***
 
-<div style="text-align: justify;">
+
 
 Sea $A\in M_{n\times m}(F)$, con $M_{n\times m}$ el conjunto de matrices del campo $F$ con dimensiones $n\times m$. En el caso en que $n = m$ decimos que $A$ es una matriz cuadrada. Para el futuro de este reporte, se tomará $F = \mathbb{R}$.
 
-</div>
+
 
 ***Vectores Canónicos:***
 
-<div style="text-align: justify;">
+
 
 Sea $e_k$ un vector de dimensión $n\times 1$, decimos que este es $k$-ésimo vector canónico de $\mathbb{R}^n$ si cumple que con $x_i$ sus entradas con $i\in\{1, \dots, n\}$, entonces $x_k = 1$ y $x_i = 0$ con $i \neq k$. Así pues se puede ver de la siguiente manera: 
 
-</div>
+
 
 $$e_k = \begin{bmatrix}
    0 \\
@@ -151,30 +151,30 @@ $$e_k = \begin{bmatrix}
    0
 \end{bmatrix}$$
 
-<div style="text-align: justify;">
+
 
 Esto es útil también para referirnos a partes de una matriz $A$ lo suficientemente grande. Dado que:
 
-</div>
+
 
 - $Ae_k = k$-ésima columna de $A$
 - $e^T_k A = k$-ésima fila de $A$ 
 
-<div style="text-align: justify;">
+
 
 Además, en dado caso de tener un vector $v$ con dimensiones $n\times 1$, la multiplicación $v e_k^T$ será una matriz cuadrada $n\times n$ con todos los valores $0$ a excepción de la columna $k$ que contendrá los valores de $v$. 
 
-</div>
+
 
 <br>
 
 ### 3.3.2 Justificación Teórica de la Descomposición LU
 
-<div style="text-align: justify;">
+
 
 Sea $A\in M_{n\times n}(\mathbb{R})$, lo que buscamos es la secuencia finita $\{ L_k\in M_{n\times n}: 1\leq k \leq n\}$ tales que para $x_k$ la $k$-ésima columna de la matriz $A$ ($x_k = Ae_k$):
 
-</div>
+
 
 $$
 x_k = \begin{bmatrix}
@@ -197,13 +197,13 @@ $$
 
 <br>
 
-<div style="text-align: justify;">
+
 
 Esto con el objetivo de obtener a partir de esta cantidad finita de $L_k$ una matriz $U$ triangular superior. De manera similar a la eliminación Gaussiana, obtenemos pues, suponiendo que $x_{kk} \neq 0$ los siguientes valores: 
 $$l_{jk} = \frac{x_{jk}}{x_{kk}}\ \ \ \ \ \ \ \ (k<j\leq m)$$
 Esto significa que tenemos que pedirle a $A$ que todos sus elementos en la diagonal **sean no nulos**. Con estas entradas entradas definamos $l_k = [0, \dots, 0, l_{k+1, k}, \dots, l_{nk}]^T$, y así obtenemos que $L_k$ se verá de la siguiente manera:
 
-</div>
+
 
 $$
 L_k = \begin{bmatrix}
@@ -218,11 +218,11 @@ $$
 
 <br>
 
-<div style="text-align: justify;">
+
 
 - Con esto, generamos $k$ matrices $L_k$ tales que: 
 
-</div>
+
 
 $$
 L_{n-1} \cdots L_2 L_1 A = U
@@ -230,11 +230,11 @@ $$
 
 <br>
 
-<div style="text-align: justify;">
+
 
 - La matriz deseada, y más aún, despejando para $A$ obtenemos: 
 
-</div>
+
 
 $$
 A = L_1^{-1}L_2^{-1}\cdots L_{n-1}^{-1} U
@@ -242,11 +242,11 @@ $$
 
 <br>
 
-<div style="text-align: justify;">
+
 
 - Por como está estructurada cada $L_k$, podemos ver que $L_k^{-1} = I + l_k e_k$, con lo que nos podemos tomar: 
 
-</div>
+
 
 $$
 L = L_1^{-1}L_2^{-1}\cdots L_{n-1}^{-1} = I+ \sum_{k = 1}^{n-1}l_k e_k^T = \begin{bmatrix}
@@ -261,11 +261,11 @@ $$
 
 <br>
 
-<div style="text-align: justify;">
+
 
 Con esto obtuvimos pues $A = LU$, con $L$ matriz triangular inferior y $U$ matriz triangular superior. Ahora, supongamos que existen $L_1, L_2$ matrices triangulares inferiores y $U_1, U_2$ matrices triangulares superiores tales que:
 
-</div>
+
 
 $$
 A = L_1U_1 = L_2 U_2\ \ \ \ \Longrightarrow\ \ \ \ L_2^{-1}L_1 = U_2 U_1^{-1}
@@ -273,11 +273,11 @@ $$
 
 <br>
 
-<div style="text-align: justify;">
+
 
 - Por cerradura de las matrices triangulares, $L_2^{-1}L_1$ es triangular inferior y $U_2 U_1^{-1}$ es triangular superior, así  por la igualdad:
 
-</div>
+
 
 $$
 L_2^{-1}L_1 = U_2 U_1^{-1} = I\ \ \ \ \Longrightarrow\ \ \ \ L_1 = L_2\  \land\ U_1 = U_2
@@ -285,17 +285,17 @@ $$
 
 <br>
 
-<div style="text-align: justify;">
+
 
 Así pues, el despeje $LU$ fue único para $A$. Como observación final, es fácil ver que  $L$ es fácil de obtener, al no ser necesario ningún despeje u operación entre matrices. Mientras que $U$ se puede obtener al tiempo que se genera $L$. Con esto **queda demostrada la existencia y unicidad de $L, U$**, además de dar una pauta para la obtención de dichas matrices.
 
-</div>
+
 
 <br>
 
 ### 3.3.3 Algoritmo de la Descomposición LU
 
-<div style="text-align: justify;">
+
 
 Como se puede apreciar en la deducción matemática, las operaciones de inversa para las $L_i$ son sumamente simples de efectuar, así como el despeje de cada entrada de $L$ se puede obtener de manera directa, lo que hace al algoritmo sumamente efectivo dado que es de matrices. Con esto, Lloyd N. y David Bau, agregan que no es necesario almacenar $A, L$ o $U$ en distintas matrices. 
 <br>
@@ -305,7 +305,7 @@ Generamos una matriz partiendo de la identidad, y vamos a encontrar todos los $l
 <br>
 El pseudo código a continuación supone que la matriz $A$ dada es válida, es decir, $\forall k\leq n$, $A_{kk} \neq 0$. Con $n$ claro el tamaño de la matriz $A$, es decir $A \in M_{n\times n}(F)$.
 
-</div>
+
 
 <br>
 
@@ -331,11 +331,11 @@ fin para
 retornar L, U
 ``` 
 
-<div style="text-align: justify;">
+
 
 > Es importante notar que este algoritmo tiene **complejidad $O(n^3)$**, lo que implica que su funcionamiento en menos de $1$ segundo, estará limitado a matrices de a lo más $n = 10^3$, suponiendo una cantidad de operaciones $\approx 10^9$ por segundo.
 
-</div>
+
 
 <br>
 <br>
@@ -344,11 +344,11 @@ retornar L, U
 
 ## 3.4.1 Problema 1: Un Sistema $3 \times 3$ Básico
 
-<div style="text-align: justify;">
+
 
 Se propone resolver el siguiente sistema simple para demostrar la trazabilidad manual del algoritmo:
 
-</div>
+
 
 $$A = \begin{bmatrix}
 1 & 1 & 1 \\ 
@@ -360,11 +360,11 @@ $$A = \begin{bmatrix}
 
 ### 3.4.1.1 Desarrollo Explícito
 
-<div style="text-align: justify;">
+
 
 Aplicando el algoritmo descrito en 3.3.3:$k=1$: Los multiplicadores son $l_{21}=1/1=1$ y $l_{31}=1/1=1$. Restamos la fila 1 a las filas 2 y 3.$k=2$: El nuevo pivote es $u_{22}=1$. El multiplicador es $l_{32}=1/1=1$. Restamos la fila 2 a la fila 3.Obtenemos las matrices:
 
-</div>
+
 
 $$L = \begin{bmatrix} 
 1 & 0 & 0 \\ 
@@ -381,11 +381,11 @@ U = \begin{bmatrix}
 
 ### 3.4.1.2 Resultado del Código
 
-<div style="text-align: justify;">
+
 
 Al ejecutar el script en Python implementado con la metodología descrita, se obtuvieron los siguientes resultados en la consola, confirmando la exactitud de la factorización y la solución del sistema:
 
-</div>
+
 
 ```
 === MATRIZ INICIAL A ===
@@ -416,11 +416,11 @@ U =
 
 ## 3.4.2 Problema 2: El Análisis de un Circuito Resistivo
 
-<div style="text-align: justify;">
+
 
 Se plantea un circuito con 3 mallas donde $A$ representa las resistencias (Matriz de Impedancia) y $b$ las fuentes de voltaje. El sistema está dado por las Leyes de Kirchhoff:
 
-</div>
+
 
 $$\begin{bmatrix} 
 10 & -5 & 0 \\ 
@@ -432,7 +432,7 @@ $$\begin{bmatrix}
 
 ### 3.4.2.1 Desarrollo Explícito
 
-<div style="text-align: justify;">
+
 
 Para resolver el sistema de circuitos presentado, realizamos la descomposición manual de la matriz $A$.
 
@@ -443,7 +443,7 @@ El pivote es $a_{11} = 10$. Buscamos eliminar el $-5$ de la fila 2 ($a_{21}$).
 El multiplicador es $l_{21} = \frac{-5}{10} = -0.5$.
 Operación elemental: $F_2 \leftarrow F_2 - (-0.5)F_1$.
 
-</div>
+
 
 $$
 \begin{bmatrix}
@@ -461,7 +461,7 @@ $$
 
 <br>
 
-<div style="text-align: justify;">
+
 
 - La fila 3 ya tiene un cero en la primera columna, por lo que $l_{31} = 0$.
 
@@ -472,7 +472,7 @@ El nuevo pivote es $a_{22} = 12.5$. Buscamos eliminar el $-5$ de la fila 3 ($a_{
 El multiplicador es $l_{32} = \frac{-5}{12.5} = -0.4$.
 Operación elemental: $F_3 \leftarrow F_3 - (-0.4)F_2$.
 
-</div>
+
 
 $$
 \begin{bmatrix}
@@ -490,12 +490,12 @@ $$
 
 <br>
 
-<div style="text-align: justify;">
+
 
 Finalmente, construimos la matriz $L$ colocando los multiplicadores calculados ($-0.5$ y $-0.4$) en sus posiciones correspondientes y unos en la diagonal principal.
 El resultado de la descomposición es:
 
-</div>
+
 
 $$
 L = \begin{bmatrix}
@@ -514,11 +514,11 @@ $$
 
 ### 3.4.2.2 Resultado del Código
 
-<div style="text-align: justify;">
+
 
 Para el problema de circuitos, la ejecución del algoritmo arrojó los siguientes resultados. Se puede observar que las matrices $L$ y $U$ coinciden con el desarrollo manual, y el vector solución corresponde a las corrientes de cada malla en Amperios.
 
-</div>
+
 
 ```
 === MATRIZ INICIAL A (CIRCUITOS) ===
@@ -549,7 +549,7 @@ U =
 
 # 3.5. Resultados
 
-<div style="text-align: justify;">
+
 
 El algoritmo implementado logró descomponer y resolver exitosamente las matrices de prueba.
 
@@ -561,21 +561,21 @@ Al reconstruir la matriz original mediante la operación $A_{calc} = L \cdot U$,
 
 Para el Problema 2, una vez obtenidas $L$ y $U$, cambiar el vector de voltaje $b$ permitió encontrar nuevas corrientes realizando solo $O(n^2)$ operaciones (sustitución hacia adelante y atrás) en lugar de $O(n^3)$ (eliminación completa), confirmando la ventaja teórica del método.
 
-</div>
+
 
 <br>
 <br>
 
 # 3.6. Discusión y Conclusiones
 
-<div style="text-align: justify;">
+
 
 La descomposición LU ha demostrado ser una herramienta robusta para la resolución de sistemas lineales cuadrados.Ventajas: Su principal fortaleza radica en la separación del procesamiento de la matriz $A$ del vector $b$. Esto es crucial en simulaciones temporales o procesos iterativos de ingeniería donde la estructura del sistema no cambia.Limitaciones: Como se observó en la teoría, el algoritmo básico falla si algún pivote $a_{kk}$ es cero (división por cero). Esto hace necesario implementar estrategias de pivoteo parcial (intercambio de filas) para garantizar la estabilidad numérica en casos generales, lo cual añade una matriz de permutación $P$ al resultado ($PA=LU$).
 <br>
 
 > En conclusión, dominar la factorización LU es indispensable para cualquier aplicación de cómputo científico, siendo el paso lógico previo al estudio de métodos más avanzados como Cholesky o QR.
 
-</div>
+
 
 <br>
 <br>
@@ -654,53 +654,53 @@ Anteriormente ya existían técnicas como la de Lewis Fry Richardson y los méto
 
 ## 4.3 Metodología
 
-<div style="text-align: justify;">
+
 
 Este método numérico requiere primero, para su justificación, las siguientes herramientas y conceptos matemáticos.
 
-</div>
+
 
 ### 4.3.1 Definiciones Matemáticas 
 
 **Matriz Diagonalmente Dominante:**
 
-<div style="text-align: justify;">
+
 
 Sea $A\in M_{n\times n}(F)$ matriz cuadrada, se dice que es **diagonalmente dominante por filas** si se cumple que: 
 
-</div>
+
 
 $$
 |a_{ii}| \geq \sum_{j\neq i}|a_{ij}| \ \ \ (\forall i)
 $$
 
-<div style="text-align: justify;">
+
 
 En el caso en que se use ($>$), a esto se le llaman **estrictamente diagonalmente dominante por filas**. Así, se puede generar la **dominancia por columnas** recorriendo la columna asociada al punto en la diagonal, y en caso de cumplir ambas se toma como el caso general de **dominancia diagonal**. 
 
-</div>
+
 
 **Teorema de Convergencia Gauss-Seidel:**
 
-<div style="text-align: justify;">
+
 
 Sea el sistema dado por $Ax = b$, con $A\in M_{n\times m}(F)$ y $x, b$ vectores de tamaño $n\times 1$. Si $A$ es estríctamente diagonalmente dominante, entonces el método de **Gauss-Seidel** converge para cualquier aproximación inicial $x^{(0)}$. 
 
-</div>
+
 
 ### 4.3.2 Justificación Teórica del Método SOR 
 
-<div style="text-align: justify;">
+
 
 Entonces dado un sistema $Ax = b$, con $A\in M_{n\times n}(F)$ matriz y $x, b$ vectores de tamaño $n\times 1$. Generamos así la descomposición estándar de la matriz $A$:
 
-</div>
+
 
 $$
 A = D - L - U
 $$
 
-<div style="text-align: justify;">
+
 
 Donde $D, L, U \in M_{n\times n}(F)$, que cumplen:
 
@@ -710,27 +710,27 @@ Donde $D, L, U \in M_{n\times n}(F)$, que cumplen:
 
 Sabemos pues que por método Gauss-Seidel, la entrada $i$ de $x_{GS}^{(k+1)}$ tendrá la forma: 
 
-</div>
+
 
 $$
 x_{GS, i}^{(k+1)} = \frac{1}{aii}\Big(b_i - \sum_{j=1}^{i-1}a_{ij}x_j ^{(k+1)}-\sum_{j=i+1}^{n}a_{ij}x_j ^{(k)}\Big)
 $$
 
-<div style="text-align: justify;">
+
 
 Donde entonces, el cambio se ve como $\Delta x_i = x_{GS,i}^{(k+1)}-x_i^{(k)}$. Ahora, la metodoloía de usar un **parámetro de relajación** $\omega$, requiere que hagamos un cambio ponderado:
 
-</div>
+
 
 $$
 x_i^{(k+1)} = x_i^{(k)} + \omega\Delta x_i = x_i^{(k)} + \omega \big( x_{GS,i}^{(k+1)} -  x_i^{(k)}\big)
 $$
 
-<div style="text-align: justify;">
 
-- Luego sustituímos el valor de $x_{GS,i}^{(k+1)}$ con la formula del método Gauss-Seidel:
 
-</div>
+Luego sustituímos el valor de $x_{GS,i}^{(k+1)}$ con la formula del método Gauss-Seidel:
+
+
 
 $$\begin{align}
 x_i^{(k+1)} &= x_i^{(k)} + \omega \left( \frac{1}{a_{ii}} \left( b_i - \sum_{j=1}^{i-1} a_{ij}x_j^{(k+1)} - \sum_{j=i+1}^{n} a_{ij}x_j^{(k)} \right) - x_i^{(k)} \right) \\
@@ -738,85 +738,73 @@ x_i^{(k+1)} &= x_i^{(k)} + \omega \left( \frac{1}{a_{ii}} \left( b_i - \sum_{j=1
 \end{align}
 $$
 
-<div style="text-align: justify;">
 
-- Multiplicamos todo por $a_{ii}$ para quitar los denominadores:
 
-</div>
+Multiplicamos todo por $a_{ii}$ para quitar los denominadores:
+
+
 
 $$
 a_{ii}x_i^{(k+1)} = (1 - \omega)a_{ii}x_i^{(k)} + \omega \left( b_i - \sum_{j=1}^{i-1} a_{ij}x_j^{(k+1)} - \sum_{j=i+1}^{n} a_{ij}x_j^{(k)} \right)
 $$
 
-<div style="text-align: justify;">
 
-- Y podemos reorganizar tal que:
 
-</div>
-
+Y podemos reorganizar tal que:
 $$
 a_{ii}x_i^{(k+1)} + \omega \sum_{j=1}^{i-1} a_{ij}x_j^{(k+1)} = (1 - \omega)a_{ii}x_i^{(k)} - \omega \sum_{j=i+1}^{n} a_{ij}x_j^{(k)} + \omega b_i
 $$
+Con lo que podemos obtener de forma matricial: 
 
-<div style="text-align: justify;">
 
-- Con lo que podemos obtener de forma matricial: 
-
-</div>
 
 $$
 (D - \omega L)x^{(k+1)} = [(1 - \omega)D + \omega U]x^{(k)} + \omega b
 $$
+Y despejando finalmente:
 
-<div style="text-align: justify;">
 
-- Y despejando finalmente:
-
-</div>
 
 $$
 x^{(k+1)} = (D - \omega L)^{-1}[(1 - \omega)D + \omega U] x^{(k)} + \omega(D - \omega L)^{-1}\mathbf{b}
 $$
 
-<div style="text-align: justify;">
+En la literatura, generalmente definen:
 
-- En la literatura, generalmente definen:
 
-</div>
 
 $$
 T_{SOR} = (D - \omega L)^{-1}[(1 - \omega)D + \omega U],\ \ \ \mathbf{c}_{SOR} = \omega(D - \omega L)^{-1}\mathbf{b}
 $$
 
-<div style="text-align: justify;">
 
-- Con lo que el despeje final queda de la manera: 
+Con lo que el despeje final queda de la manera: 
 
-</div>
+
 
 $$
 x^{(k+1)} = T_{SOR}x^{(k)} + c_{SOR}
 $$
 
-<div style="text-align: justify;">
+
 
 > Es importante notar que por teorema, para asegurar la **convergencia** del método **SOR**, $0 < \omega < 2$, esto se puede ver en el Teorema 6.4 de *Applied Numerical Linear Algebra* de J. Demmel.
 
-</div>
+
 
 <br>
 <br>
 
 ### 4.3.3 Algoritmo del SOR
 
-<div style="text-align: justify;">
+
 
 Como vamos a hacer una mejora del método Gauss-Seidel, tomaremos como parámetro de relajación a $\omega$, con $1 < \omega < 2$, es decir, una sobrerrelajación. 
 <br>
 <br>
 El pseudocódigo a continuación supone que la entrada corresponde a una matriz diagonalmente dominante, así como un conjunto de $n$-términos independientes $b$. Observe además que le damos criterios `max_iter` y `tol` para evitar una sobrecarga de operaciones, es decir, damos parámetros de cuántos pasos máximos y cuál  es la tolerancia del error de la solución $x$ encontrada.
 
-</div>
+
 
 <br>
 
@@ -859,21 +847,19 @@ fin mientras
 retorno x, iter, error
 ```
 
-<div style="text-align: justify;">
+
 
 Este algoritmo dadas $n$ y $m$ = `max_iter`, tiene complejidad $O(mn^2)$. Con lo que así como el algoritmo pasado, suponiendo $10^9$ operaciones por segundo, limitamos $m, n$ para estar de acorde con estas. Además, es importante tener en cuenta que `tol`, estará íntimamente relacionada con el tipo de dato que almacene los valores decimales de $x$.
-
-</div>
 
 <br>
 <br>
 
 ## 4.4. Aplicación del SOR
 ### 4.4.1. Problema 1: Sistema Diagonalmente Dominante para SOR
-<div style="text-align: justify;">
+
 
 Se propone resolver el siguiente sistema diagonalmente dominante para demostrar la convergencia rápida del **método SOR**:
-</div>
+
 
 $$
 A=\begin{bmatrix}
@@ -889,13 +875,13 @@ $$
 ​<br> **Solución exacta conocida:** $x = [1, 1, 1]^T$ 
 
 Este sistema es estrictamente diagonalmente dominante, lo que garantiza la convergencia del método SOR para $0<\omega < 2$. 
-</div>
+
 
 ### 4.4.1.2 Formulación del Método SOR
 
-<div style="text-align: justify;">
+
 Para el método SOR, la iteración para cada componente $x_i$ es:
-</div>
+
 
 $$
 x_i^{(k+1)} = (1 - \omega)x_i^{(k)} + \frac{\omega}{a_{ii}} \left( b_i - \sum_{j=1}^{i-1} a_{ij}x_j^{(k+1)} - \sum_{j=i+1}^{n} a_{ij}x_j^{(k)} \right)
@@ -908,13 +894,13 @@ Tomaremos $\omega = 1.2$ (sobrerrelajación óptima estimada) y vector inicial $
 Iteración 1 ($k=0$):
 
 Para $i=1$:
-$$x1(1)=(1−1.2)⋅0+1.24(5−(1⋅0+0⋅0))=0+0.3⋅5=1.5$$
+$$x_1(1)=(1−1.2)⋅0+1.24(5−(1⋅0+0⋅0))=0+0.3⋅5=1.5$$
 
 Para $i=2$:
-$$x2(1)=(1−1.2)⋅0+1.24(6−(1⋅1.5+1⋅0))=0+0.3⋅(6−1.5)=0.3⋅4.5=1.35$$
+$$x_2(1)=(1−1.2)⋅0+1.24(6−(1⋅1.5+1⋅0))=0+0.3⋅(6−1.5)=0.3⋅4.5=1.35$$
 
 Para $i=3$:
-$$x3(1)=(1−1.2)⋅0+1.24(5−(0⋅1.5+1⋅1.35))=0+0.3⋅(5−1.35)=0.3⋅3.65=1.095$$
+$$x_3(1)=(1−1.2)⋅0+1.24(5−(0⋅1.5+1⋅1.35))=0+0.3⋅(5−1.35)=0.3⋅3.65=1.095$$
 
 Resultado: $x^{(1)} = [1.500, 1.350, 1.095]^T$
 
@@ -924,14 +910,14 @@ Resultado: $x^{(1)} = [1.500, 1.350, 1.095]^T$
 | Iteración | $x_1$ | $x_2$ | $x_3$ | Error máximo |
 |-----------|-------|-------|-------|--------------|
 | 0 | 0.0000 | 0.0000 | 0.0000 | 1.0000 |
-| 1 | 1.5000 | 1.3500 | 1.0950 | 0.5000 |
-| 2 | 0.7950 | 0.9630 | 0.9921 | 0.2050 |
-| 3 | 1.0521 | 0.9941 | 1.0033 | 0.0521 |
-
+| 1 | 1.5000 | 1.3500 | 1.0950 | 0.7050 |
+| 2 | 0.7950 | 0.9630 | 0.9921 | 0.2571 |
+| 3 | 1.0521 | 0.9941 | 1.0033 | 0.0607 |
 </div>
+
 Después de solo 3 iteraciones, la aproximación está muy cerca de la solución exacta $[1, 1, 1]^T$. El error máximo absoluto en la tercera iteración es:
 $$
-\max⁡(∣1.0521−1∣,∣0.99414−1∣,∣1.00334−1∣)=0.0521
+\max⁡(∣1.0521−1∣,∣0.9941−1∣,∣1.0033−1∣)=0.0521
 $$
 
 Esto demuestra la rápida convergencia del método SOR con un factor de relajación bien elegido en un sistema diagonalmente dominante.
@@ -939,14 +925,65 @@ Esto demuestra la rápida convergencia del método SOR con un factor de relajaci
 ### 4.4.1.5 Resultado del Código
 Al ejecutar el script en Python implementado con la metodología descrita, se obtuvieron los siguientes resultados en la consola, confirmando la exactitud de la factorización y la solución del sistema:
 ```
+=== INICIANDO MÉTODO SOR ===
+omega = 1.2, tol = 0.07, max_iter = 1000
+x0 = [0.0, 0.0, 0.0]
 
+
+===== Iteración 0 =====
+x[1] previo: 0.000000  →  nuevo: 1.500000   (cambio = 1.500000e+00)
+x[2] previo: 0.000000  →  nuevo: 1.350000   (cambio = 1.350000e+00)
+x[3] previo: 0.000000  →  nuevo: 1.095000   (cambio = 1.095000e+00)
+Error de la iteración: 1.500000e+00
+Vector x = [1.5, 1.3499999999999999, 1.095]
+
+===== Iteración 1 =====
+x[1] previo: 1.500000  →  nuevo: 0.795000   (cambio = 7.050000e-01)
+x[2] previo: 1.350000  →  nuevo: 0.963000   (cambio = 3.870000e-01)
+x[3] previo: 1.095000  →  nuevo: 0.992100   (cambio = 1.029000e-01)
+Error de la iteración: 7.050000e-01
+Vector x = [0.795, 0.963, 0.9920999999999999]
+
+===== Iteración 2 =====
+x[1] previo: 0.795000  →  nuevo: 1.052100   (cambio = 2.571000e-01)
+x[2] previo: 0.963000  →  nuevo: 0.994140   (cambio = 3.114000e-02)
+x[3] previo: 0.992100  →  nuevo: 1.003338   (cambio = 1.123800e-02)
+Error de la iteración: 2.571000e-01
+Vector x = [1.0520999999999998, 0.9941400000000002, 1.0033380000000003]
+
+===== Iteración 3 =====
+x[1] previo: 1.052100  →  nuevo: 0.991338   (cambio = 6.076200e-02)
+x[2] previo: 0.994140  →  nuevo: 1.002769   (cambio = 8.629200e-03)
+x[3] previo: 1.003338  →  nuevo: 0.998502   (cambio = 4.836360e-03)
+Error de la iteración: 6.076200e-02
+Vector x = [0.9913380000000002, 1.0027692, 0.99850164]
+
+=== FIN DEL MÉTODO SOR ===
+Solución aproximada x: [0.9913380000000002, 1.0027692, 0.99850164]
+Iteraciones: 4
+Error final: 0.06076199999999965
 ```
 ## 4.5 Resultados
+El método SOR implementado resolvió exitosamente el sistema diagonalmente dominante propuesto, demostrando convergencia rápida hacia la solución exacta.
 
+Precisión:
+
+Tras solo 3 iteraciones, el error máximo absoluto se redujo de 1.0000 a 0.0521, acercándose significativamente a la solución exacta $[1, 1, 1]^T$. La convergencia monótona observada valida la elección del parámetro de relajación $\omega = 1.2$.
+
+Eficiencia:
+
+Para un sistema $3 \times 3$, cada iteración requiere solo $O(n)$ operaciones por componente, demostrando la ventaja computacional del método iterativo frente a métodos directos como eliminación Gaussiana ($O(n^3)$), especialmente para aproximaciones iniciales cercanas a la solución.
 <br>
 <br>
 
 ## 4.6 Discusión y Conclusiones
+El método SOR ha demostrado ser una técnica eficiente para la resolución iterativa de sistemas lineales, *específicamente* cuando se aplica a matrices diagonalmente dominantes.
+
+**Ventajas:** Su principal fortaleza radica en la flexibilidad del parámetro de relajación $\omega$, que permite acelerar significativamente la convergencia respecto a métodos como Jacobi o Gauss-Seidel. Además, al actualizar cada componente utilizando los valores más recientes disponibles (carácter secuencial), reduce el número de iteraciones necesarias.
+
+**Limitaciones:** Como se observó en la teoría, la convergencia del método depende críticamente de la elección de $\omega$ y de las propiedades espectrales de la matriz. Para matrices que no son diagonalmente dominantes o definidas positivas, puede divergir o requerir un $\omega$ subóptimo, lo que disminuye su eficiencia. Además, su naturaleza secuencial dificulta la paralelización completa del algoritmo.
+
+> En conclusión, el método SOR representa un equilibrio óptimo entre simplicidad y eficiencia para sistemas bien condicionados, siendo fundamental comprender su comportamiento para aplicarlo adecuadamente en problemas de ingeniería y cómputo científico donde los métodos directos son computacionalmente costosos.
 
 <br>
 <br>

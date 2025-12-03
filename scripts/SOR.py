@@ -24,7 +24,7 @@ def sor(A, b, x0, omega, tol=1e-6, max_iter=1000):
     print(f"x0 = {x0}\n")
 
     while error > tol and iteraciones < max_iter:
-        print(f"\n===== Iteración {iteraciones + 1} =====")
+        print(f"\n===== Iteración {iteraciones} =====")
         error = 0.0
 
         for i in range(n):
