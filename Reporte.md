@@ -954,3 +954,6 @@ Este algoritmo dadas $n$ y $m$ = `max_iter`, tiene complejidad $O(mn^2)$. Con lo
 - [Wikipedia - Diagonally Dominant Matrix](https://en.wikipedia.org/wiki/Diagonally_dominant_matrix)
 - [Wikipedia - Gauss-Seidel Method](https://en.wikipedia.org/wiki/Gauss%E2%80%93Seidel_method)
 - [J. Demmel - Applied Numerical Linear Algebra](https://www.stat.uchicago.edu/~lekheng/courses/302/demmel/): Ver **Capítulo 6** (Pag 282-286, 290)
+- Seidel, L. (1874). Ueber ein Verfahren, die Gleichungen, auf welche die Methode der kleinsten Quadrate führt, sowie lineäre Gleichungen überhaupt, durch successive Annäherung aufzulösen. Münchener DigitalisierungsZentrum, Digitale Bibliothek, Bayerische Staatsbibliothek. Recuperado de https://www.digitale-sammlungen.de/de/view/bsb11179192?page=5
+- Burden, R. L., & Faires, J. D. (2002). Análisis Numérico (7ª ed.). Ediciones Paraninfo, S.A. Recuperado de https://evflores.wordpress.com/wp-content/uploads/2014/02/analisis-numerico-richard-l-burden-7ma.pdf
+- Sobrerrelajación sucesiva. (n.d.). En Wikipedia, la enciclopedia libre. Recuperado el 2 de diciembre de 2025, de https://es.wikipedia.org/wiki/Sobrerrelajaci%C3%B3n_sucesiva 
